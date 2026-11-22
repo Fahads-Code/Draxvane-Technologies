@@ -43,7 +43,7 @@
     ".next-preview-v2/dev/types/**/*.ts",
     ".next-hero-preview/types/**/*.ts",
     ".next-hero-preview/dev/types/**/*.ts"
-  ],
+, "ko next.config.mjs"  ],
   "exclude": [
     "node_modules"
   ]
