@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bimex Technologies | Your All-in-One Digital Team",
+  title: "Draxvane Technologies | Your All-in-One Digital Team",
   description:
     "Custom software, websites, mobile apps, game development, graphic design, AI, and data-entry support—all from one digital team.",
 };
