@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import HeaderNavigation from "../components/HeaderNavigation";
 
 const rotatingPhrases = ["need.", "idea.", "launch.", "vision."];
 
@@ -171,7 +173,7 @@ function ArrowIcon({ diagonal = false }: { diagonal?: boolean }) {
   );
 }
 
-export default function Home() {
+export default function Home({ initialSection }: { initialSection?: string }) {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [isPhraseLeaving, setIsPhraseLeaving] = useState(false);
   const [activeService, setActiveService] = useState<string | null>(null);
@@ -180,6 +182,12 @@ export default function Home() {
   const [isHeroOutOfView, setIsHeroOutOfView] = useState(false);
   const closeServiceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (initialSection) {
+      document.getElementById(initialSection)?.scrollIntoView();
+    }
+  }, [initialSection]);
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -194,10 +202,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const updateColumns = () => setServiceColumns(window.innerWidth <= 900 ? 2 : 4);
+    const updateColumns = () => {
+      setServiceColumns(window.innerWidth <= 650 ? 1 : window.innerWidth <= 900 ? 2 : 4);
+    };
+    let resizeFrame = 0;
+    const handleResize = () => {
+      window.cancelAnimationFrame(resizeFrame);
+      resizeFrame = window.requestAnimationFrame(updateColumns);
+    };
     updateColumns();
-    window.addEventListener("resize", updateColumns);
-    return () => window.removeEventListener("resize", updateColumns);
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(resizeFrame);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => () => {
@@ -253,28 +271,23 @@ export default function Home() {
       </div> */}
 
       <header className="site-header">
-        <a className="brand" href="#home" aria-label="Draxvane Technologies home">
+        <Link className="brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-logo.svg"
+              src="/draxvane-logo.webp"
               alt="Draxvane Technologies"
-              width={2090}
-              height={375}
+              width={1045}
+              height={188}
+              sizes="210px"
+              decoding="async"
               priority
             />
             <span className="brand-d-dot dot-one" aria-hidden="true" />
             <span className="brand-d-dot dot-two" aria-hidden="true" />
             <span className="brand-d-dot dot-three" aria-hidden="true" />
           </span>
-        </a>
-        <nav className="main-nav" aria-label="Main navigation">
-          <a href="#services">What we do</a>
-          <a href="#approach">Our approach</a>
-          <a href="#about">About us</a>
-        </nav>
-        <a className="header-cta" href="mailto:hello@draxvane.com">
-          Let&apos;s talk <ArrowIcon diagonal />
-        </a>
+        </Link>
+        <HeaderNavigation />
       </header>
 
       <section
@@ -291,7 +304,7 @@ export default function Home() {
           <span className="hero-particle hero-particle-three" />
         </div>
         <div className="hero-copy">
-          <div className="hero-kicker"><span />Tell us what you need. We will take it from here.</div>
+          <div className="hero-kicker"><span />Available for new projects</div>
           <h1>
             <span className="hero-line"><span>One team.</span></span>
             <span className="hero-line">
@@ -311,12 +324,12 @@ export default function Home() {
             Custom software, websites, mobile apps, games, design, AI, and accurate data entry, planned, built, and delivered by one dedicated team. No gaps, no delays, no chasing multiple people.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="mailto:hello@draxvane.com">
+            <Link className="button button-primary" href="/contact">
               Tell us what you need <ArrowIcon />
-            </a>
-            <a className="text-link" href="#services">
+            </Link>
+            <Link className="text-link" href="/services">
               Explore our services <ArrowIcon />
-            </a>
+            </Link>
           </div>
           <div className="hero-note" role="group" aria-label="Our capabilities">
             <span>Creative</span>
@@ -324,6 +337,27 @@ export default function Home() {
             <span>Technical</span>
             <i aria-hidden="true" />
             <span>Operational</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="manifesto-section" id="about">
+        <div className="manifesto-inner section-shell">
+          <div className="eyebrow"><span className="eyebrow-line" /> A partner for the whole picture</div>
+          <p className="manifesto">
+            From first idea
+            <br />
+            <span>to the details that get it done.</span>
+          </p>
+          <div className="manifesto-bottom">
+            <p>
+              Software, visual design, games, and digital operations all have a
+              place on the same team. Work with one point of contact and a clear
+              plan, whatever the task.
+            </p>
+            <Link className="text-link" href="/approach">
+              How we work <ArrowIcon />
+            </Link>
           </div>
         </div>
       </section>
@@ -407,7 +441,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="manifesto-section" id="about">
+      {/* <section className="manifesto-section" id="about">
         <div className="manifesto-inner section-shell">
           <div className="eyebrow"><span className="eyebrow-line" /> A partner for the whole picture</div>
           <p className="manifesto">
@@ -421,12 +455,12 @@ export default function Home() {
               place on the same team. Work with one point of contact and a clear
               plan, whatever the task.
             </p>
-            <a className="text-link" href="#approach">
+            <Link className="text-link" href="/approach">
               How we work <ArrowIcon />
-            </a>
+            </Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="approach-section section-shell" id="approach">
         <div className="section-heading approach-heading">
@@ -455,24 +489,26 @@ export default function Home() {
           <h2>Tell us what<br />you&apos;re working on.</h2>
           <div className="contact-bottom">
             <p>Software, design, games, automation, or data work—share the task and we&apos;ll help you find the next step.</p>
-            <a className="button button-primary" href="mailto:hello@draxvane.com">
+            <Link className="button button-primary" href="/contact">
               Start a conversation <ArrowIcon />
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
       <footer className="site-footer section-shell">
-        <a className="brand footer-brand" href="#home" aria-label="Draxvane Technologies home">
+        <Link className="brand footer-brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-logo.svg"
+              src="/draxvane-logo.webp"
               alt="Draxvane Technologies"
-              width={2090}
-              height={375}
+              width={1045}
+              height={188}
+              sizes="170px"
+              decoding="async"
             />
           </span>
-        </a>
+        </Link>
         <p>Your all-in-one digital team.</p>
         <a href="mailto:hello@draxvane.com">hello@draxvane.com</a>
         <span className="copyright">© 2026 Draxvane Technologies</span>
