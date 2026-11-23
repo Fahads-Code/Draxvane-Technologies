@@ -304,7 +304,7 @@ export default function Home({ initialSection }: { initialSection?: string }) {
           <span className="hero-particle hero-particle-three" />
         </div>
         <div className="hero-copy">
-          <div className="hero-kicker"><span />Available for new projects</div>
+          <div className="hero-kicker"><span />Tell us what you need. We will take it from here.</div>
           <h1>
             <span className="hero-line"><span>One team.</span></span>
             <span className="hero-line">
