@@ -110,9 +110,26 @@ a {
   will-change: transform, opacity;
 }
 
+.about-cofounders-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.about-cofounder-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
 .about-cofounder-card .about-founder-photo {
-  width: 220px;
-  height: 220px;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
 }
 
 .about-cofounder-card .about-person-copy h2 {
@@ -124,6 +141,10 @@ a {
 }
 
 @media (max-width: 700px) {
+  .about-cofounders-grid {
+    grid-template-columns: 1fr;
+  }
+
   .about-cofounder-card .about-founder-photo {
     width: 165px;
     height: 165px;
