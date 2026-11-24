@@ -274,7 +274,7 @@ export default function Home({ initialSection }: { initialSection?: string }) {
         <Link className="brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-logo.webp"
+              src="/Draxvane Technologies Logo.png"
               alt="Draxvane Technologies"
               width={1045}
               height={188}
