@@ -110,6 +110,26 @@ a {
   will-change: transform, opacity;
 }
 
+.about-cofounder-card .about-founder-photo {
+  width: 220px;
+  height: 220px;
+}
+
+.about-cofounder-card .about-person-copy h2 {
+  font-size: 1.5rem;
+}
+
+.about-cofounder-card .about-person-copy p {
+  font-size: 0.95rem;
+}
+
+@media (max-width: 700px) {
+  .about-cofounder-card .about-founder-photo {
+    width: 165px;
+    height: 165px;
+  }
+}
+
 .brand-d-dot.dot-one {
   top: 19px;
   left: 18px;
