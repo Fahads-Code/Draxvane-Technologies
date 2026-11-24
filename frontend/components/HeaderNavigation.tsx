@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function ArrowIcon({ diagonal = false }: { diagonal?: boolean }) {
   return (
@@ -18,6 +19,10 @@ function ArrowIcon({ diagonal = false }: { diagonal?: boolean }) {
 
 export default function HeaderNavigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -48,9 +53,30 @@ export default function HeaderNavigation() {
         aria-label="Main navigation"
         id="main-navigation"
       >
-        <Link href="/services" onClick={() => setIsMenuOpen(false)}>What we do</Link>
-        <Link href="/approach" onClick={() => setIsMenuOpen(false)}>Our approach</Link>
-        <Link href="/about" onClick={() => setIsMenuOpen(false)}>About us</Link>
+        <Link
+          className={isActive("/services") ? "is-active" : undefined}
+          aria-current={isActive("/services") ? "page" : undefined}
+          href="/services"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          What we do
+        </Link>
+        <Link
+          className={isActive("/approach") ? "is-active" : undefined}
+          aria-current={isActive("/approach") ? "page" : undefined}
+          href="/approach"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Our approach
+        </Link>
+        <Link
+          className={isActive("/about") ? "is-active" : undefined}
+          aria-current={isActive("/about") ? "page" : undefined}
+          href="/about"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          About us
+        </Link>
         <Link
           className="header-cta mobile-menu-cta"
           href="/contact"

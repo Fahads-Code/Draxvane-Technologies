@@ -63,13 +63,13 @@ const specialists = [
 const cofounders = [
   {
     name: "Muneeb Mushtaq",
-    initials: "MM",
+    image: "/Muneeb.png",
     description:
       "Helping shape our vision for thoughtful digital work built around what businesses need.",
   },
   {
     name: "Syed Abdul Babar",
-    initials: "SB",
+    image: "/Babar.png",
     description:
       "Working with the team to bring practical, polished digital ideas to life.",
   },
@@ -157,8 +157,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      
-
       <section className="about-founder-section section-shell">
         <div className="about-person-card about-founder-card">
           <div className="about-founder-photo">
@@ -179,55 +177,29 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-        <div className="about-cofounder-grid">
+        <div className="about-cofounders-grid">
           {cofounders.map((cofounder) => (
-            <article className="about-person-card about-cofounder-card" key={cofounder.name}>
-              <div className="about-avatar" aria-hidden="true">{cofounder.initials}</div>
+            <article
+              className="about-person-card about-founder-card about-cofounder-card"
+              key={cofounder.name}
+            >
+              <div className="about-founder-photo">
+                <Image
+                  src={cofounder.image}
+                  alt={`${cofounder.name}, Co-founder of Draxvane Technologies`}
+                  fill
+                  sizes="(max-width: 700px) 120px, 180px"
+                />
+              </div>
               <div className="about-person-copy">
                 <span className="about-person-role">Co-founder</span>
-                <h3>{cofounder.name}</h3>
+                <h2>{cofounder.name}</h2>
                 <p>{cofounder.description}</p>
               </div>
             </article>
           ))}
         </div>
       </section>
-
-      <section className="about-founder-section section-shell">
-  <div className="about-cofounders-grid">
-    <div className="about-person-card about-founder-card about-cofounder-card">
-      <div className="about-founder-photo">
-        <Image
-          src="/Babar.png"
-          alt="Babar, Co-Founder of Draxvane Technologies"
-          fill
-          sizes="(max-width: 700px) 165px, 220px"
-        />
-      </div>
-      <div className="about-person-copy">
-        <span className="about-person-role">Co-Founder</span>
-        <h2>Babar</h2>
-        <p>Babar ki short bio yahan likhein.</p>
-      </div>
-    </div>
-
-    <div className="about-person-card about-founder-card about-cofounder-card">
-      <div className="about-founder-photo">
-        <Image
-          src="/Muneeb.png"
-          alt="Muneeb Mushtaq, Co-Founder of Draxvane Technologies"
-          fill
-          sizes="(max-width: 700px) 165px, 220px"
-        />
-      </div>
-      <div className="about-person-copy">
-        <span className="about-person-role">Co-Founder</span>
-        <h2>Muneeb Mushtaq</h2>
-        <p>Muneeb ki short bio yahan likhein.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
       
 
