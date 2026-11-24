@@ -51,6 +51,15 @@ export default function ScrollReveal() {
     document.addEventListener("visibilitychange", onVisibility);
     onVisibility();
 
+    // On phones CSS already shows every section without reveal motion,
+    // so skip the observers and per-element style writes entirely.
+    if (window.matchMedia("(max-width: 700px)").matches) {
+      return () => {
+        document.removeEventListener("visibilitychange", onVisibility);
+        root.classList.remove("page-hidden");
+      };
+    }
+
     const sections = Array.from(
       document.querySelectorAll<HTMLElement>(AMBIENT_SELECTOR),
     );

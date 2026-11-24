@@ -5,6 +5,7 @@ import HeroMotion from "../components/HeroMotion";
 import HeroPhrase from "../components/HeroPhrase";
 import SectionScroll from "../components/SectionScroll";
 import ServicesGrid from "../components/ServicesGrid";
+import SiteFooter from "../components/SiteFooter";
 
 const steps = [
   {
@@ -167,23 +168,7 @@ export default function Home({ initialSection }: { initialSection?: string }) {
         </div>
       </section>
 
-      <footer className="site-footer section-shell">
-        <Link className="brand footer-brand" href="/" aria-label="Draxvane Technologies home">
-          <span className="brand-mark">
-            <Image
-              src="/draxvane-transparent.png"
-              alt="Draxvane Technologies"
-              width={2090}
-              height={375}
-              sizes="170px"
-              decoding="async"
-            />
-          </span>
-        </Link>
-        <p>Your all-in-one digital team.</p>
-        <a href="mailto:hello@draxvane.com">hello@draxvane.com</a>
-        <span className="copyright">© 2026 Draxvane Technologies</span>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

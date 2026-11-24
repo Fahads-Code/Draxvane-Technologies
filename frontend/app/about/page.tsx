@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import HeaderNavigation from "../../components/HeaderNavigation";
+import SiteFooter from "../../components/SiteFooter";
 
 const specialists = [
   {
@@ -69,7 +70,7 @@ const cofounders = [
   },
   {
     name: "Syed Abdul Babar",
-    image: "/Babar.png",
+    image: "/Professional Office Headshot.png",
     description:
       "Working with the team to bring practical, polished digital ideas to life.",
   },
@@ -255,23 +256,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <footer className="site-footer section-shell">
-        <Link className="brand footer-brand" href="/" aria-label="Draxvane Technologies home">
-          <span className="brand-mark">
-            <Image
-              src="/draxvane-transparent.png"
-              alt="Draxvane Technologies"
-              width={2090}
-              height={375}
-              sizes="170px"
-              decoding="async"
-            />
-          </span>
-        </Link>
-        <p>Your all-in-one digital team.</p>
-        <a href="mailto:hello@draxvane.com">hello@draxvane.com</a>
-        <span className="copyright">© 2026 Draxvane Technologies</span>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

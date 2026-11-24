@@ -41,11 +41,6 @@ export default function HeaderNavigation() {
     };
   }, []);
 
-  useEffect(() => {
-    document.body.classList.toggle("mobile-menu-open", isMenuOpen);
-    return () => document.body.classList.remove("mobile-menu-open");
-  }, [isMenuOpen]);
-
   return (
     <>
       <nav

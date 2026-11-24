@@ -49,7 +49,8 @@
 html {
   max-width: 100%;
   overflow-x: clip;
-  scroll-behavior: smooth;
+  /* Instant scrolling: smooth scrolling through a long, layered page forces
+     hundreds of repaints on mobile CPUs and was the main source of lag. */
   scroll-padding-top: 96px;
 }
 
@@ -1007,27 +1008,70 @@ button, input, select, textarea { font: inherit; }
 /* ----------------------------------------------------------------- Footer */
 .site-footer {
   display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: none;
   min-height: 110px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 22px;
+  align-items: stretch;
+  gap: 26px;
   margin: 0;
-  padding: 24px max(32px, calc((100vw - 1240px) / 2));
+  padding: 32px max(32px, calc((100vw - 1240px) / 2)) 24px;
   border-top: 1px solid var(--line);
   background: radial-gradient(ellipse at 16% 130%, rgba(59, 130, 246, 0.07), transparent 32rem), #ffffff;
 }
 
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.footer-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .footer-brand .brand-mark { width: 170px; height: 38px; }
 
-.site-footer > p,
-.site-footer > a:not(.brand),
+.footer-identity p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px 22px;
+}
+
+.footer-nav a {
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 500;
+  transition: color 220ms ease;
+}
+
+.footer-nav a:hover { color: var(--blue); }
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.footer-bottom a,
 .copyright { color: var(--muted); font-size: 10px; }
 
-.site-footer > p { margin: 0; }
-.site-footer > a:not(.brand) { transition: color 220ms ease; }
-.site-footer > a:not(.brand):hover { color: var(--blue); }
+.footer-bottom a { transition: color 220ms ease; }
+.footer-bottom a:hover { color: var(--blue); }
 
 /* -------------------------------------------------------------- About page */
 .about-page {
@@ -1750,7 +1794,7 @@ button, input, select, textarea { font: inherit; }
   }
 
   .section-shell { width: min(100% - 48px, 900px); }
-  .hero { min-height: 640px; padding-inline: 24px; }
+  .hero { min-height: 640px; width: 100%; max-width: none; padding-inline: 24px; }
   .hero h1 { font-size: clamp(48px, 7.5vw, 84px); }
   .main-nav { gap: 2px; }
   .main-nav a { padding-inline: 12px; }
@@ -1771,10 +1815,12 @@ button, input, select, textarea { font: inherit; }
   .contact-page-hero { grid-template-columns: minmax(0, 1fr) 260px; gap: 36px; }
   .contact-card { padding: 38px; }
   .step-card { padding-inline: 18px; }
+  .site-footer { padding-inline: 24px; }
 }
 
 @media (max-width: 700px) {
-  body.mobile-menu-open { overflow: hidden; }
+  /* Do not lock body scroll here: overflow:hidden turns the body into a
+     scroll container and breaks the sticky header on mobile browsers. */
 
   .site-header {
     grid-template-columns: minmax(0, 1fr) auto;
@@ -1792,7 +1838,7 @@ button, input, select, textarea { font: inherit; }
     right: 20px;
     left: 20px;
     display: flex;
-    max-height: 0;
+    max-height: none;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
@@ -1803,12 +1849,12 @@ button, input, select, textarea { font: inherit; }
     box-shadow: 0 24px 60px rgba(11, 27, 51, 0.16);
     opacity: 0;
     visibility: hidden;
-    transition: max-height 320ms ease, opacity 200ms ease, transform 220ms ease, visibility 220ms;
+    transition: opacity 180ms ease, transform 220ms ease, visibility 180ms;
     transform: translateY(-8px);
   }
 
   .main-nav.is-open {
-    max-height: calc(100vh - 90px);
+    max-height: min(70vh, 520px);
     overflow-y: auto;
     padding: 8px;
     border-width: 1px;
@@ -1891,7 +1937,7 @@ button, input, select, textarea { font: inherit; }
   }
 
   .site-header { height: 70px; }
-  .hero { min-height: 0; padding: 64px 8px 88px; }
+  .hero { min-height: 0; width: 100%; max-width: none; padding: 64px 20px 88px; }
   .hero-orbit,
   .hero-particle,
   .hero::after { display: none; }
@@ -1971,10 +2017,23 @@ button, input, select, textarea { font: inherit; }
   .contact-budget-label { max-width: none; }
   .contact-form-footer { flex-direction: column; align-items: stretch; }
   .contact-form-footer .button { width: 100%; }
-  .site-footer { min-height: 0; flex-wrap: wrap; justify-content: space-between; width: 100%; padding: 21px 0; }
-  .site-footer > p { display: none; }
-  .site-footer > a:not(.brand),
+  .site-footer { min-height: 0; width: 100%; padding: 28px 20px 20px; }
+  .footer-top { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .footer-nav { justify-content: flex-start; gap: 10px 18px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 14px; }
+  .footer-bottom a,
   .copyright { font-size: 9px; }
+}
+
+/* Small screens skip reveal transitions as well — they are pure paint work. */
+@media (max-width: 700px) {
+  .reveal-pending,
+  .reveal-pending.reveal-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto !important;
+  }
 }
 
 @media (max-width: 390px) {
@@ -1983,6 +2042,35 @@ button, input, select, textarea { font: inherit; }
   .contact-details { grid-template-columns: minmax(0, 1fr); }
   .contact-details div + div { padding-top: 20px; padding-left: 0; border-top: 1px solid var(--line); border-left: 0; }
 }
+
+/* First-load stability: decorative loops are static so a hard reload does not
+   repaint dozens of large gradient layers every frame. Entrance animations and
+   the rotating headline word are kept. */
+.brand-d-dot,
+.hero::before,
+.hero::after,
+.hero-atmosphere::before,
+.hero-atmosphere::after,
+.hero-grid,
+.hero-orbit,
+.hero-particle,
+.hero-kicker > span,
+.button-primary::after,
+.contact-card::before,
+.contact-glow,
+.about-page .about-hero::before,
+.orbit-outer,
+.about-visual-core,
+.chip-top,
+.chip-right,
+.chip-bottom,
+.contact-page-hero::before,
+.contact-form::before {
+  animation: none !important;
+}
+
+.brand-mark img { animation: logo-reveal 800ms var(--ease) both !important; }
+.hero-kicker { animation: hero-rise 700ms var(--ease) both !important; }
 
 /* Low-power devices keep the design but drop decorative loops. */
 .low-power .brand-d-dot,
@@ -2004,6 +2092,13 @@ button, input, select, textarea { font: inherit; }
 .low-power .about-visual-chip,
 .low-power .contact-page-hero::before,
 .low-power .contact-form::before { animation: none !important; }
+.low-power .reveal-pending,
+.low-power .reveal-pending.reveal-in {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  will-change: auto !important;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
