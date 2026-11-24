@@ -69,10 +69,10 @@ export default function ContactPage() {
         <Link className="brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-logo.webp"
+              src="/draxvane-transparent.png"
               alt="Draxvane Technologies"
-              width={1045}
-              height={188}
+              width={2090}
+              height={375}
               sizes="210px"
               decoding="async"
               priority
@@ -192,10 +192,10 @@ export default function ContactPage() {
         <Link className="brand footer-brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-logo.webp"
+              src="/draxvane-transparent.png"
               alt="Draxvane Technologies"
-              width={1045}
-              height={188}
+              width={2090}
+              height={375}
               sizes="170px"
               decoding="async"
             />

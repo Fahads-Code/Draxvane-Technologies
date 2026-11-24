@@ -178,7 +178,7 @@ export default function Home({ initialSection }: { initialSection?: string }) {
   const [isPhraseLeaving, setIsPhraseLeaving] = useState(false);
   const [activeService, setActiveService] = useState<string | null>(null);
   const [closingService, setClosingService] = useState<string | null>(null);
-  const [serviceColumns, setServiceColumns] = useState(4);
+  const [serviceColumns, setServiceColumns] = useState(3);
   const [isHeroOutOfView, setIsHeroOutOfView] = useState(false);
   const closeServiceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
@@ -203,7 +203,7 @@ export default function Home({ initialSection }: { initialSection?: string }) {
 
   useEffect(() => {
     const updateColumns = () => {
-      setServiceColumns(window.innerWidth <= 650 ? 1 : window.innerWidth <= 900 ? 2 : 4);
+      setServiceColumns(window.innerWidth <= 650 ? 1 : window.innerWidth <= 900 ? 2 : 3);
     };
     let resizeFrame = 0;
     const handleResize = () => {
@@ -274,10 +274,10 @@ export default function Home({ initialSection }: { initialSection?: string }) {
         <Link className="brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/Draxvane Technologies Logo.png"
+              src="/draxvane-logo.webp"
               alt="Draxvane Technologies"
-              width={1045}
-              height={188}
+              width={2090}
+              height={375}
               sizes="210px"
               decoding="async"
               priority
@@ -306,7 +306,7 @@ export default function Home({ initialSection }: { initialSection?: string }) {
         <div className="hero-copy">
           <div className="hero-kicker"><span />Tell us what you need. We will take it from here.</div>
           <h1>
-            <span className="hero-line"><span>One team.</span></span>
+            <span className="hero-line"><span>One Agency.</span></span>
             <span className="hero-line">
               <span>
                 <span className="headline-light">Every digital </span>
@@ -383,7 +383,10 @@ export default function Home({ initialSection }: { initialSection?: string }) {
             );
 
             return (
-              <div className="service-row" key={row[0].number}>
+              <div
+                className={`service-row${row.length === 1 ? " is-single" : ""}`}
+                key={row[0].number}
+              >
                 {row.map((service) => (
                   <article
                     className={`service-card${activeService === service.number ? " is-active" : ""}`}
@@ -500,10 +503,10 @@ export default function Home({ initialSection }: { initialSection?: string }) {
         <Link className="brand footer-brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-logo.webp"
+              src="/draxvane-transparent.png"
               alt="Draxvane Technologies"
-              width={1045}
-              height={188}
+              width={2090}
+              height={375}
               sizes="170px"
               decoding="async"
             />

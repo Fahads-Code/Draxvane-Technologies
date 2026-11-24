@@ -60,6 +60,21 @@ const specialists = [
   },
 ];
 
+const cofounders = [
+  {
+    name: "Muneeb Mushtaq",
+    initials: "MM",
+    description:
+      "Helping shape our vision for thoughtful digital work built around what businesses need.",
+  },
+  {
+    name: "Syed Abdul Babar",
+    initials: "SB",
+    description:
+      "Working with the team to bring practical, polished digital ideas to life.",
+  },
+];
+
 export const metadata: Metadata = {
   title: "About Us | Draxvane Technologies",
   description:
@@ -86,10 +101,10 @@ export default function AboutPage() {
         <Link className="brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-logo.webp"
+              src="/draxvane-transparent.png"
               alt="Draxvane Technologies"
-              width={1045}
-              height={188}
+              width={2090}
+              height={375}
               sizes="210px"
               decoding="async"
               priority
@@ -163,6 +178,18 @@ export default function AboutPage() {
               digital skills businesses need together under one roof.
             </p>
           </div>
+        </div>
+        <div className="about-cofounder-grid">
+          {cofounders.map((cofounder) => (
+            <article className="about-person-card about-cofounder-card" key={cofounder.name}>
+              <div className="about-avatar" aria-hidden="true">{cofounder.initials}</div>
+              <div className="about-person-copy">
+                <span className="about-person-role">Co-founder</span>
+                <h3>{cofounder.name}</h3>
+                <p>{cofounder.description}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -260,10 +287,10 @@ export default function AboutPage() {
         <Link className="brand footer-brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-logo.webp"
+              src="/draxvane-transparent.png"
               alt="Draxvane Technologies"
-              width={1045}
-              height={188}
+              width={2090}
+              height={375}
               sizes="170px"
               decoding="async"
             />
