@@ -28,7 +28,8 @@ export default function ContactPage() {
     event.preventDefault();
     if (isSubmitting) return;
 
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const name = String(form.get("name") || "");
     const email = String(form.get("email") || "");
     const company = String(form.get("company") || "");
@@ -53,7 +54,7 @@ export default function ContactPage() {
 
       setStatusType("success");
       setStatus("Your inquiry has been sent successfully. We’ll get back to you soon.");
-      event.currentTarget.reset();
+      formElement.reset();
     } catch (error) {
       setStatusType("error");
       setStatus(error instanceof Error ? error.message : "Could not send your inquiry.");

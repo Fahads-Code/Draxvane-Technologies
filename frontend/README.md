@@ -16,6 +16,40 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Contact form email
+
+Copy `.env.example` to `.env.local` and enter the SMTP credentials provided by
+your email host. The contact form sends submissions to `SMTP_TO`; it defaults
+to `company@draxvane.com`.
+
+```env
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=company@draxvane.com
+SMTP_PASS=your-smtp-password
+SMTP_FROM="Draxvane Website <company@draxvane.com>"
+SMTP_TO=company@draxvane.com
+```
+
+For port `465`, the server uses a secure TLS connection. For most other SMTP
+ports, it uses STARTTLS automatically. Add these variables to the hosting
+platform's environment settings for production deployments.
+
+### Hostinger setup
+
+Use a Hostinger mailbox username and password, not the Hostinger account login:
+
+```env
+SMTP_HOST=smtp.hostinger.com
+SMTP_PORT=465
+SMTP_USER=company@draxvane.com
+SMTP_PASS=your-mailbox-password
+SMTP_FROM="Draxvane Website <company@draxvane.com>"
+SMTP_TO=company@draxvane.com
+```
+
+Port `587` can be used instead if SMTP over port `465` is not available.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

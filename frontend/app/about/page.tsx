@@ -119,6 +119,27 @@ export default function AboutPage() {
             the work your business needs online.
           </p>
         </div>
+        <div className="about-hero-visual" aria-label="One connected digital team">
+          <div className="about-visual-orbit orbit-outer" aria-hidden="true" />
+          <div className="about-visual-orbit orbit-inner" aria-hidden="true" />
+          <div className="about-visual-core">
+            <span>One team</span>
+            <strong>Every</strong>
+            <strong>digital need</strong>
+          </div>
+          <div className="about-visual-chip chip-top">
+            <span>01</span>
+            Creative
+          </div>
+          <div className="about-visual-chip chip-right">
+            <span>02</span>
+            Technical
+          </div>
+          <div className="about-visual-chip chip-bottom">
+            <span>03</span>
+            Operational
+          </div>
+        </div>
       </section>
 
       <section className="about-founder-section section-shell">
