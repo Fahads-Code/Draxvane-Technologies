@@ -202,32 +202,7 @@ export default function AboutPage() {
   </div>
 </section>
 
-      <section className="about-people-section section-shell">
-        <div className="section-heading about-people-heading">
-          <div>
-            <div className="eyebrow">
-              <span className="eyebrow-line" /> Meet our team
-            </div>
-            <h2>Good people. <span>Great work, together.</span></h2>
-          </div>
-          <p>
-            Different skills, one shared goal: helping your business move
-            forward online.
-          </p>
-        </div>
-
-        <article className="about-person-card about-core-team-card">
-          <div className="about-avatar" aria-hidden="true">EW</div>
-          <div className="about-person-copy">
-            <span className="about-person-role">Team member</span>
-            <h3>Esha Wajahat</h3>
-            <p>
-              Part of the team working together to deliver thoughtful digital
-              work for our clients.
-            </p>
-          </div>
-        </article>
-      </section>
+      
 
       <section className="about-specialists-section section-shell">
         <div className="section-heading about-specialists-heading">
