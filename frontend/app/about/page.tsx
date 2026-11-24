@@ -167,37 +167,37 @@ export default function AboutPage() {
       </section>
 
       <section className="about-founder-section section-shell">
-  <div className="about-person-card about-founder-card about-cofounder-card">
-    <div className="about-founder-photo">
-      <Image
-        src="/Babar.png"
-        alt="Babar, Co-Founder of Draxvane Technologies"
-        fill
-        sizes="(max-width: 700px) 165px, 220px"
-      />
+  <div className="about-cofounders-grid">
+    <div className="about-person-card about-founder-card about-cofounder-card">
+      <div className="about-founder-photo">
+        <Image
+          src="/Babar.png"
+          alt="Babar, Co-Founder of Draxvane Technologies"
+          fill
+          sizes="(max-width: 700px) 165px, 220px"
+        />
+      </div>
+      <div className="about-person-copy">
+        <span className="about-person-role">Co-Founder</span>
+        <h2>Babar</h2>
+        <p>Babar ki short bio yahan likhein.</p>
+      </div>
     </div>
-    <div className="about-person-copy">
-      <span className="about-person-role">Co-Founder</span>
-      <h2>Babar</h2>
-      <p>Babar ki short bio yahan likhein.</p>
-    </div>
-  </div>
-</section>
 
-<section className="about-founder-section section-shell">
-  <div className="about-person-card about-founder-card about-cofounder-card">
-    <div className="about-founder-photo">
-      <Image
-        src="/Muneeb.png"
-        alt="Muneeb Mushtaq, Co-Founder of Draxvane Technologies"
-        fill
-        sizes="(max-width: 700px) 165px, 220px"
-      />
-    </div>
-    <div className="about-person-copy">
-      <span className="about-person-role">Co-Founder</span>
-      <h2>Muneeb Mushtaq</h2>
-      <p>Muneeb ki short bio yahan likhein.</p>
+    <div className="about-person-card about-founder-card about-cofounder-card">
+      <div className="about-founder-photo">
+        <Image
+          src="/Muneeb.png"
+          alt="Muneeb Mushtaq, Co-Founder of Draxvane Technologies"
+          fill
+          sizes="(max-width: 700px) 165px, 220px"
+        />
+      </div>
+      <div className="about-person-copy">
+        <span className="about-person-role">Co-Founder</span>
+        <h2>Muneeb Mushtaq</h2>
+        <p>Muneeb ki short bio yahan likhein.</p>
+      </div>
     </div>
   </div>
 </section>
