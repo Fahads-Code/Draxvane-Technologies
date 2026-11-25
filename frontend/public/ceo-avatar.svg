@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 360" fill="none" role="img" aria-labelledby="title">
+  <title id="title">Illustrated portrait of Zara Saleem</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="300" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF2FF" />
+      <stop offset="1" stop-color="#F7FAFF" />
+    </linearGradient>
+    <linearGradient id="skin" x1="112" y1="70" x2="188" y2="210" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6D7C6" />
+      <stop offset="1" stop-color="#E9BCA6" />
+    </linearGradient>
+    <linearGradient id="hair" x1="92" y1="40" x2="212" y2="250" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#334A70" />
+      <stop offset="1" stop-color="#152844" />
+    </linearGradient>
+    <linearGradient id="blazer" x1="40" y1="260" x2="260" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B82F6" />
+      <stop offset="1" stop-color="#1E40AF" />
+    </linearGradient>
+  </defs>
+
+  <rect width="300" height="360" rx="24" fill="url(#bg)" />
+  <circle cx="150" cy="150" r="112" fill="#fff" opacity="0.55" />
+  <circle cx="150" cy="150" r="82" fill="#DBEAFE" opacity="0.4" />
+
+  <!-- shoulders -->
+  <path d="M28 360c8-70 50-106 122-106s114 36 122 106H28Z" fill="url(#blazer)" />
+  <path d="M118 254c10 16 20 24 32 24s22-8 32-24l16 10c-12 20-28 30-48 30s-36-10-48-30l16-10Z" fill="#fff" opacity="0.92" />
+  <path d="M150 288v72" stroke="#BFDBFE" stroke-width="2" opacity="0.7" />
+
+  <!-- neck -->
+  <path d="M126 208h48v50c0 16-48 16-48 0v-50Z" fill="#E9BCA6" />
+
+  <!-- soft bob behind the face -->
+  <path d="M150 44c-56 0-86 40-86 98 0 40 12 76 30 100 10 14 28 22 56 22s46-8 56-22c18-24 30-60 30-100 0-58-30-98-86-98Z" fill="url(#hair)" />
+
+  <!-- ears -->
+  <circle cx="100" cy="152" r="10" fill="url(#skin)" />
+  <circle cx="200" cy="152" r="10" fill="url(#skin)" />
+
+  <!-- face -->
+  <path d="M150 70c-32 0-50 24-50 64 0 43 21 76 50 76s50-33 50-76c0-40-18-64-50-64Z" fill="url(#skin)" />
+
+  <!-- smooth side-part fringe -->
+  <path d="M100 140c-2-50 20-84 50-84s52 34 52 84c-8-26-20-40-36-44-15-4-28 4-38 16-6 8-10 18-11 28h-17Z" fill="url(#hair)" />
+  <path d="M150 56c-30 0-50 34-50 84 4-22 13-38 26-48 10-7 21-9 33-6 13 3 23 11 29 23-6-30-23-53-38-53Z" fill="#fff" opacity="0.07" />
+
+  <!-- side strands framing the face -->
+  <path d="M101 132c-8 34-6 74 8 104 5 11 13 19 24 24-12-27-18-57-16-88 2-19 6-33 12-44-12 0-22 2-28 4Z" fill="url(#hair)" />
+  <path d="M199 132c8 34 6 74-8 104-5 11-13 19-24 24 12-27 18-57 16-88-2-19-6-33-12-44 12 0 22 2 28 4Z" fill="url(#hair)" />
+
+  <!-- brows -->
+  <path d="M121 139c7-4 15-4 22 0" stroke="#25406A" stroke-width="3" stroke-linecap="round" />
+  <path d="M157 139c7-4 15-4 22 0" stroke="#25406A" stroke-width="3" stroke-linecap="round" />
+
+  <!-- eyes -->
+  <ellipse cx="133" cy="153" rx="10" ry="6" fill="#fff" opacity="0.95" />
+  <ellipse cx="167" cy="153" rx="10" ry="6" fill="#fff" opacity="0.95" />
+  <circle cx="134" cy="153" r="3.2" fill="#1B2A44" />
+  <circle cx="168" cy="153" r="3.2" fill="#1B2A44" />
+
+  <!-- nose -->
+  <path d="M150 160v16c0 3 3 5 7 6" stroke="#C98F7D" stroke-width="2.4" stroke-linecap="round" />
+
+  <!-- smile -->
+  <path d="M138 190c7 7 17 7 24 0" stroke="#B96F73" stroke-width="3" stroke-linecap="round" />
+
+  <!-- cheeks -->
+  <circle cx="120" cy="176" r="8" fill="#E89A8E" opacity="0.22" />
+  <circle cx="180" cy="176" r="8" fill="#E89A8E" opacity="0.22" />
+</svg>

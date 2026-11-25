@@ -176,7 +176,7 @@ export default function ServicesGrid() {
         setActiveService(null);
         setClosingService(null);
         closeServiceTimer.current = null;
-      }, 420);
+      }, 140);
       return;
     }
 
@@ -210,28 +210,29 @@ export default function ServicesGrid() {
               className={`service-row${row.length === 1 ? " is-single" : ""}`}
               key={row[0].number}
             >
-              {row.map((service) => (
-                <article
-                  className={`service-card${activeService === service.number ? " is-active" : ""}`}
-                  key={service.number}
-                >
-                  <div className="service-card-top">
-                    <span>{service.number}</span>
-                    <button
-                      className="service-arrow"
-                      type="button"
-                      aria-label={`${activeService === service.number ? "Close" : "View"} ${service.title} details`}
-                      aria-expanded={activeService === service.number}
-                      aria-controls={`service-detail-${service.number}`}
-                      onClick={() => toggleService(service.number)}
-                    >
-                      <ArrowIcon />
-                    </button>
-                  </div>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                </article>
-              ))}
+              {row.map((service) => {
+                const isActive = activeService === service.number;
+
+                return (
+                  <button
+                    className={`service-card${isActive ? " is-active" : ""}`}
+                    type="button"
+                    key={service.number}
+                    aria-expanded={isActive}
+                    aria-controls={`service-detail-${service.number}`}
+                    onClick={() => toggleService(service.number)}
+                  >
+                    <span className="service-card-top">
+                      <span>{service.number}</span>
+                      <span className="service-arrow" aria-hidden="true">
+                        <ArrowIcon />
+                      </span>
+                    </span>
+                    <h3>{service.title}</h3>
+                    <p>{service.description}</p>
+                  </button>
+                );
+              })}
               {rowActiveService && (
                 <div
                   id={`service-detail-${rowActiveService.number}`}

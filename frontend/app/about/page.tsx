@@ -64,7 +64,7 @@ const specialists = [
 const cofounders = [
   {
     name: "Muneeb Mushtaq",
-    image: "/Muneeb.png",
+    image: "/Muneeb Final.png",
     description:
       "Helping shape our vision for thoughtful digital work built around what businesses need.",
   },
@@ -102,17 +102,15 @@ export default function AboutPage() {
         <Link className="brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-transparent.png"
+              src="/draxvane-logo.webp"
               alt="Draxvane Technologies"
               width={2090}
               height={375}
               sizes="210px"
-              decoding="async"
-              priority
+              decoding="sync"
+              preload
+              unoptimized
             />
-            <span className="brand-d-dot dot-one" aria-hidden="true" />
-            <span className="brand-d-dot dot-two" aria-hidden="true" />
-            <span className="brand-d-dot dot-three" aria-hidden="true" />
           </span>
         </Link>
         <HeaderNavigation />
@@ -139,7 +137,7 @@ export default function AboutPage() {
           <div className="about-visual-orbit orbit-outer" aria-hidden="true" />
           <div className="about-visual-orbit orbit-inner" aria-hidden="true" />
           <div className="about-visual-core">
-            <span>One team</span>
+            <span>Draxvane Technologies</span>
             <strong>Every</strong>
             <strong>digital need</strong>
           </div>
@@ -159,23 +157,45 @@ export default function AboutPage() {
       </section>
 
       <section className="about-founder-section section-shell">
-        <div className="about-person-card about-founder-card">
-          <div className="about-founder-photo">
-            <Image
-              src="/Founder.png"
-              alt="Fahad Mehmood, Founder of Draxvane Technologies"
-              fill
-              sizes="(max-width: 700px) 210px, 280px"
-              priority
-            />
+        <div className="about-leadership-grid">
+          <div className="about-person-card about-founder-card">
+            <div className="about-founder-photo">
+              <Image
+                src="/Founder.png"
+                alt="Fahad Mehmood, Founder of Draxvane Technologies"
+                fill
+                sizes="(max-width: 700px) 210px, 280px"
+                priority
+              />
+            </div>
+            <div className="about-person-copy">
+              <span className="about-person-role">Founder</span>
+              <h2>
+                <span>Fahad</span>
+                <span>Mehmood</span>
+              </h2>
+              <p>
+                Fahad founded Draxvane Technologies to bring creative,
+                technical, and operational skills under one roof. He sets the
+                vision, shapes the right team for each project, and keeps the
+                work grounded in real business needs.
+              </p>
+            </div>
           </div>
-          <div className="about-person-copy">
-            <span className="about-person-role">Founder</span>
-            <h2>Fahad Mehmood</h2>
-            <p>
-              Fahad leads Draxvane Technologies and its mission to bring the
-              digital skills businesses need together under one roof.
-            </p>
+          <div className="about-person-card about-founder-card about-ceo-card">
+            <div className="about-person-copy">
+              <span className="about-person-role">CEO</span>
+              <h2>
+                <span>Zara</span>
+                <span>Saleem</span>
+              </h2>
+              <p>
+                Zara leads Draxvane Technologies with clear direction and
+                dependable delivery. She turns client goals into practical
+                plans, keeps every team aligned, and makes sure each release is
+                useful, polished, and built to last.
+              </p>
+            </div>
           </div>
         </div>
         <div className="about-cofounders-grid">
@@ -208,7 +228,7 @@ export default function AboutPage() {
         <div className="section-heading about-specialists-heading">
           <div>
             <div className="eyebrow">
-              <span className="eyebrow-line" /> Our capabilities, our people
+              <span className="eyebrow-line" />Our capabilities, our people
             </div>
             <h2>Specialists for <span>every kind of digital work.</span></h2>
           </div>

@@ -70,17 +70,15 @@ export default function ContactPage() {
         <Link className="brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
             <Image
-              src="/draxvane-transparent.png"
+              src="/draxvane-logo.webp"
               alt="Draxvane Technologies"
               width={2090}
               height={375}
               sizes="210px"
-              decoding="async"
-              priority
+              decoding="sync"
+              preload
+              unoptimized
             />
-            <span className="brand-d-dot dot-one" aria-hidden="true" />
-            <span className="brand-d-dot dot-two" aria-hidden="true" />
-            <span className="brand-d-dot dot-three" aria-hidden="true" />
           </span>
         </Link>
         <HeaderNavigation />
@@ -105,7 +103,7 @@ export default function ContactPage() {
           </div>
           <div>
             <span>Typical response</span>
-            <p>Within 1–2 business days</p>
+            <p>Within 1–2 hours</p>
           </div>
         </aside>
       </section>

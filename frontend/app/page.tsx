@@ -56,14 +56,12 @@ export default function Home({ initialSection }: { initialSection?: string }) {
               alt="Draxvane Technologies"
               width={2090}
               height={375}
-              sizes="210px"
-              decoding="async"
-              priority
-              unoptimized
+              sizes="(max-width: 700px) 172px, 210px"
+              quality={90}
+              decoding="sync"
+              fetchPriority="high"
+              preload
             />
-            <span className="brand-d-dot dot-one" aria-hidden="true" />
-            <span className="brand-d-dot dot-two" aria-hidden="true" />
-            <span className="brand-d-dot dot-three" aria-hidden="true" />
           </span>
         </Link>
         <HeaderNavigation />
@@ -80,7 +78,7 @@ export default function Home({ initialSection }: { initialSection?: string }) {
           <span className="hero-particle hero-particle-three" />
         </div>
         <div className="hero-copy">
-          <div className="hero-kicker"><span />Tell us what you need. We will take it from here.</div>
+          <div className="hero-kicker"><span />Tell us what you need. Everything you need is right here.</div>
           <h1>
             <span className="hero-line"><span>One Agency.</span></span>
             <span className="hero-line">

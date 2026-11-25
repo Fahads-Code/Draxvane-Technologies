@@ -135,35 +135,37 @@ button, input, select, textarea { font: inherit; }
   align-items: center;
 }
 
+.brand-mark::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  /* White on the dark logo looks like the old screen-blended shine, but on the
+     white header it is invisible — no blend group means no per-frame repaint. */
+  background: linear-gradient(100deg, transparent 38%, rgba(255, 255, 255, 0.82) 50%, transparent 62%);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-130%, 0, 0) skewX(-18deg);
+  backface-visibility: hidden;
+  animation: logo-sheen 6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
 .brand-mark img {
   display: block;
   width: 100%;
   height: auto;
   filter: var(--logo-filter);
-  transform-origin: center;
-  animation: logo-reveal 800ms var(--ease) both, logo-breath 8s ease-in-out 800ms infinite;
-  transition: filter 280ms ease;
+  /* Keep the filtered raster cached so the sheen only composites a layer. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: transform 260ms var(--ease);
 }
 
 .brand:hover .brand-mark img {
   filter: var(--logo-filter) drop-shadow(0 6px 14px rgba(37, 99, 235, 0.24));
+  transform: translate3d(0, -1px, 0);
 }
-
-.brand-d-dot {
-  position: absolute;
-  z-index: 2;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--blue-500);
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.55);
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.brand-d-dot.dot-one { top: 10px; left: 17px; animation: brand-dot-one 5.2s ease-in-out infinite; }
-.brand-d-dot.dot-two { top: 16px; left: 10px; width: 2px; height: 2px; animation: brand-dot-two 6.4s ease-in-out 0.8s infinite; }
-.brand-d-dot.dot-three { top: 22px; left: 20px; width: 2px; height: 2px; animation: brand-dot-three 7.1s ease-in-out 1.4s infinite; }
 
 .main-nav {
   display: flex;
@@ -239,28 +241,28 @@ button, input, select, textarea { font: inherit; }
   display: grid;
   width: 100%;
   max-width: none;
-  min-height: 700px;
+  min-height: 680px;
   place-items: center;
   margin: 0;
-  padding: 104px 32px 116px;
+  padding: 112px 32px 104px;
   overflow: hidden;
   border-bottom: 1px solid var(--line);
   background:
-    radial-gradient(ellipse at 78% 16%, rgba(96, 165, 250, 0.16), transparent 38rem),
-    radial-gradient(ellipse at 14% 82%, rgba(125, 211, 252, 0.14), transparent 34rem),
-    linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+    radial-gradient(ellipse at 72% 18%, rgba(96, 165, 250, 0.12), transparent 36rem),
+    radial-gradient(ellipse at 18% 78%, rgba(125, 211, 252, 0.1), transparent 30rem),
+    linear-gradient(180deg, #ffffff 0%, #fbfcff 52%, #f7faff 100%);
   isolation: isolate;
 }
 
 .hero::before {
   position: absolute;
   z-index: -1;
-  top: 50%;
+  top: 48%;
   left: 50%;
-  width: min(880px, 92vw);
+  width: min(760px, 88vw);
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.16), rgba(59, 130, 246, 0.05) 44%, transparent 70%);
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.1), rgba(59, 130, 246, 0.03) 48%, transparent 72%);
   content: "";
   pointer-events: none;
   transform: translate(-50%, -50%);
@@ -339,11 +341,11 @@ button, input, select, textarea { font: inherit; }
   width: min(820px, 95vw);
   height: 520px;
   background-image:
-    linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: linear-gradient(to bottom, transparent 5%, #000 70%, transparent 100%);
-  opacity: 0.46;
+    linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, transparent 12%, #000 68%, transparent 100%);
+  opacity: 0.3;
   transform: translateX(-50%) perspective(520px) rotateX(68deg);
   transform-origin: center bottom;
   animation: hero-grid-drift 18s linear infinite;
@@ -400,7 +402,6 @@ button, input, select, textarea { font: inherit; }
 .hero.is-out-of-view .hero-atmosphere::before,
 .hero.is-out-of-view .hero-atmosphere::after,
 .hero.is-out-of-view .hero-kicker > span,
-.hero.is-out-of-view .rotating-phrase,
 .hero.is-out-of-view .button-primary::after {
   animation-play-state: paused;
 }
@@ -417,29 +418,37 @@ button, input, select, textarea { font: inherit; }
   max-width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 12px;
   margin: 0 auto;
-  padding: 9px 17px;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: var(--shadow-sm);
+  padding: 0 0 9px;
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+  box-shadow: none;
   color: var(--ink-soft);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  animation: hero-rise 700ms var(--ease) both, kicker-float 7s ease-in-out 900ms infinite;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  animation: hero-rise 700ms var(--ease) both;
 }
 
 .hero-kicker > span {
-  width: 5px;
-  height: 5px;
-  flex: 0 0 5px;
-  border-radius: 50%;
-  background: var(--blue-500);
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
-  animation: hero-status-pulse 2.4s ease-in-out infinite;
-  will-change: transform, opacity;
+  width: 24px;
+  height: 2px;
+  flex: 0 0 24px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--sky));
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.22);
+}
+
+.hero-kicker::after {
+  width: 24px;
+  height: 2px;
+  flex: 0 0 24px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--sky), var(--blue));
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.22);
+  content: "";
 }
 
 .eyebrow {
@@ -463,11 +472,11 @@ button, input, select, textarea { font: inherit; }
 }
 
 .hero h1 {
-  margin: 30px 0 24px;
+  margin: 28px 0 22px;
   color: var(--ink);
-  font-size: clamp(56px, 8.2vw, 112px);
+  font-size: clamp(54px, 7.8vw, 104px);
   font-weight: 600;
-  letter-spacing: -0.08em;
+  letter-spacing: -0.075em;
   line-height: 0.98;
 }
 
@@ -479,12 +488,20 @@ button, input, select, textarea { font: inherit; }
 
 .hero-line > span {
   display: block;
+  line-height: 0.98;
   animation: hero-title-in 900ms var(--ease) both;
 }
 
 .hero-line:nth-child(2) > span {
   animation-delay: 130ms;
   white-space: nowrap;
+  /* Independent from the entrance transform, so centering is composited.
+     JS adds .is-measured only after the first, jump-free offset is in place. */
+  translate: var(--hero-phrase-offset, 0px) 0;
+}
+
+.hero-line.is-measured:nth-child(2) > span {
+  transition: translate 520ms var(--ease);
 }
 
 .headline-light { color: #6b7b95; }
@@ -498,24 +515,25 @@ button, input, select, textarea { font: inherit; }
   color: transparent;
 }
 
-.rotating-phrase {
-  display: inline-block;
+.phrase-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
-  transform-origin: center bottom;
-  animation: rotating-phrase-in 700ms var(--ease) both;
-  will-change: opacity, transform;
-}
-
-.rotating-phrase.is-leaving {
-  animation: rotating-phrase-out 700ms cubic-bezier(0.4, 0, 1, 1) both;
+  border: 0;
 }
 
 .hero-description {
-  max-width: 720px;
+  max-width: 640px;
   margin: 0 auto;
   color: var(--muted);
   font-size: 16px;
-  line-height: 1.85;
+  line-height: 1.8;
+  letter-spacing: -0.01em;
   animation: hero-rise 750ms var(--ease) 280ms both;
 }
 
@@ -592,19 +610,20 @@ button, input, select, textarea { font: inherit; }
   align-items: center;
   justify-content: center;
   gap: 14px;
-  margin-top: 52px;
-  color: var(--faint);
-  font-size: 9px;
+  margin-top: 44px;
+  color: #7b8799;
+  font-size: 10px;
   font-weight: 500;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   animation: hero-rise 750ms var(--ease) 520ms both;
 }
 
 .hero-note i {
-  width: 22px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--blue-400), transparent);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.45);
 }
 
 /* -------------------------------------------------------------- Manifesto */
@@ -704,15 +723,21 @@ button, input, select, textarea { font: inherit; }
 .service-card {
   position: relative;
   display: flex;
+  width: 100%;
   min-height: 250px;
   flex-direction: column;
   padding: 24px;
   overflow: hidden;
+  appearance: none;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: linear-gradient(158deg, #ffffff 0%, var(--surface-soft) 100%);
   box-shadow: var(--shadow-sm);
-  transition: border-color 300ms ease, box-shadow 400ms var(--ease), transform 400ms var(--ease), background 300ms ease;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  /* Short, composited transitions keep the whole-card tap feeling instant. */
+  transition: border-color 180ms ease, box-shadow 240ms var(--ease), transform 240ms var(--ease), background 180ms ease;
 }
 
 .service-card::after {
@@ -727,7 +752,7 @@ button, input, select, textarea { font: inherit; }
   opacity: 0;
   pointer-events: none;
   transform: scale(0.7);
-  transition: opacity 420ms ease, transform 620ms var(--ease);
+  transition: opacity 240ms ease, transform 320ms var(--ease);
 }
 
 .service-card:hover,
@@ -768,7 +793,7 @@ button, input, select, textarea { font: inherit; }
   background: #fff;
   color: var(--blue);
   cursor: pointer;
-  transition: border-color 220ms ease, background 220ms ease, color 220ms ease, box-shadow 260ms ease, transform 420ms var(--ease);
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease, box-shadow 220ms ease, transform 240ms var(--ease);
 }
 
 .service-arrow:hover,
@@ -801,6 +826,7 @@ button, input, select, textarea { font: inherit; }
 }
 
 .service-detail-shell {
+  position: relative;
   grid-column: 1 / -1;
   overflow: hidden;
   border: 1px solid rgba(37, 99, 235, 0.16);
@@ -809,10 +835,29 @@ button, input, select, textarea { font: inherit; }
     radial-gradient(ellipse at 8% 0%, rgba(96, 165, 250, 0.13), transparent 46%),
     linear-gradient(110deg, #ffffff, #f2f6ff);
   box-shadow: var(--shadow-md);
-  animation: service-detail-in 320ms var(--ease) both;
+  /* Layout is committed in one frame; only opacity/transform animate, so the
+     grid never recalculates heights on every tick. */
+  animation: service-detail-in 200ms var(--ease) both;
+  will-change: opacity, transform;
 }
 
-.service-detail-shell.is-closing { animation: service-detail-out 420ms cubic-bezier(0.4, 0, 1, 1) both; }
+.service-detail-shell::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue-500), var(--sky), transparent);
+  content: "";
+  transform-origin: center;
+  animation: service-detail-accent 420ms var(--ease) both;
+}
+
+.service-detail-shell.is-closing {
+  animation: service-detail-out 130ms ease-in both;
+}
+
+.service-detail-shell.is-closing::before { animation: none; opacity: 0.5; }
 
 .service-detail {
   display: grid;
@@ -856,15 +901,15 @@ button, input, select, textarea { font: inherit; }
   color: var(--ink-soft);
   font-size: 14px;
   line-height: 1.45;
-  animation: service-detail-item-in 320ms var(--ease) both;
+  animation: service-detail-item-in 180ms var(--ease) both;
 }
 
-.service-detail-items span:nth-child(2) { animation-delay: 20ms; }
-.service-detail-items span:nth-child(3) { animation-delay: 40ms; }
-.service-detail-items span:nth-child(4) { animation-delay: 60ms; }
-.service-detail-items span:nth-child(5) { animation-delay: 80ms; }
-.service-detail-items span:nth-child(6) { animation-delay: 100ms; }
-.service-detail-items span:nth-child(7) { animation-delay: 120ms; }
+.service-detail-items span:nth-child(2) { animation-delay: 8ms; }
+.service-detail-items span:nth-child(3) { animation-delay: 16ms; }
+.service-detail-items span:nth-child(4) { animation-delay: 24ms; }
+.service-detail-items span:nth-child(5) { animation-delay: 32ms; }
+.service-detail-items span:nth-child(6) { animation-delay: 40ms; }
+.service-detail-items span:nth-child(7) { animation-delay: 48ms; }
 
 .service-detail-items i {
   width: 5px;
@@ -1198,11 +1243,14 @@ button, input, select, textarea { font: inherit; }
 }
 
 .about-visual-core span {
+  max-width: 86%;
   margin-bottom: 10px;
   color: var(--blue);
   font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+  text-align: center;
   text-transform: uppercase;
 }
 
@@ -1251,6 +1299,50 @@ button, input, select, textarea { font: inherit; }
   padding-top: 28px;
   padding-bottom: 96px;
 }
+
+.about-leadership-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.about-leadership-grid .about-founder-card {
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 24px;
+  padding: 26px;
+}
+
+.about-leadership-grid .about-founder-photo { width: 210px; height: 280px; }
+
+/* Text-only leadership card: no portrait, no monogram — just typography and
+   a clean gradient panel so it still feels deliberate beside the founder. */
+.about-leadership-grid .about-ceo-card {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  padding: 34px 38px;
+  border-color: rgba(37, 99, 235, 0.16);
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(96, 165, 250, 0.14), transparent 55%),
+    linear-gradient(135deg, #ffffff, #f0f5ff);
+}
+
+.about-leadership-grid .about-ceo-card::before {
+  position: absolute;
+  top: 34px;
+  bottom: 34px;
+  left: 0;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: linear-gradient(180deg, var(--blue), var(--sky), transparent);
+  content: "";
+}
+
+.about-leadership-grid .about-person-copy h2 { font-size: clamp(26px, 2.6vw, 38px); }
+.about-leadership-grid .about-ceo-card .about-person-copy h2 { font-size: clamp(30px, 3vw, 44px); }
+.about-leadership-grid .about-ceo-card .about-person-copy p { max-width: 420px; }
+.about-leadership-grid .about-person-copy h2 span { display: block; }
 
 .about-person-card {
   display: flex;
@@ -1628,18 +1720,23 @@ button, input, select, textarea { font: inherit; }
 
 /* -------------------------------------------------------------- Keyframes */
 @keyframes service-detail-in {
-  from { max-height: 0; opacity: 0; transform: translateY(-14px); }
-  to { max-height: 520px; opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translate3d(0, -6px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 @keyframes service-detail-out {
-  from { max-height: 520px; opacity: 1; transform: translateY(0); }
-  to { max-height: 0; opacity: 0; transform: translateY(-14px); }
+  from { opacity: 1; transform: translate3d(0, 0, 0); }
+  to { opacity: 0; transform: translate3d(0, -4px, 0); }
+}
+
+@keyframes service-detail-accent {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 0.9; transform: scaleX(1); }
 }
 
 @keyframes service-detail-item-in {
-  from { opacity: 0; transform: translateX(-10px); }
-  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translate3d(-8px, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 @keyframes hero-rise {
@@ -1698,39 +1795,10 @@ button, input, select, textarea { font: inherit; }
   82%, 100% { transform: translateX(450%) rotate(18deg); }
 }
 
-@keyframes logo-reveal {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes logo-breath {
-  0%, 100% { opacity: 0.96; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-2px); }
-}
-
-@keyframes brand-dot-one {
-  0%, 100% { opacity: 0.35; transform: translate(0, 5px); }
-  50% { opacity: 1; transform: translate(6px, -3px); }
-}
-
-@keyframes brand-dot-two {
-  0%, 100% { opacity: 0.3; transform: translate(4px, 0); }
-  50% { opacity: 0.9; transform: translate(-3px, 7px); }
-}
-
-@keyframes brand-dot-three {
-  0%, 100% { opacity: 0.25; transform: translate(-2px, 4px); }
-  50% { opacity: 1; transform: translate(5px, -6px); }
-}
-
-@keyframes rotating-phrase-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes rotating-phrase-out {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(-12px); }
+@keyframes logo-sheen {
+  0%, 52% { opacity: 0; transform: translate3d(-130%, 0, 0) skewX(-18deg); }
+  62% { opacity: 0.9; }
+  84%, 100% { opacity: 0; transform: translate3d(130%, 0, 0) skewX(-18deg); }
 }
 
 @keyframes aurora-spin {
@@ -1806,9 +1874,14 @@ button, input, select, textarea { font: inherit; }
   .orbit-inner { width: 178px; height: 178px; }
   .about-visual-core { width: 145px; height: 145px; }
   .about-visual-core strong { font-size: 19px; }
+  .about-visual-core span { font-size: 8px; letter-spacing: 0.06em; }
   .chip-right { right: -18px; }
   .about-founder-card { grid-template-columns: 220px minmax(0, 1fr); gap: 30px; padding: 26px; }
   .about-founder-photo { width: 220px; height: 280px; }
+  .about-leadership-grid { grid-template-columns: minmax(0, 1fr); }
+  .about-leadership-grid .about-founder-card { grid-template-columns: 220px minmax(0, 1fr); gap: 30px; padding: 26px; }
+  .about-leadership-grid .about-founder-photo { width: 220px; height: 280px; }
+  .about-leadership-grid .about-ceo-card { padding: 30px 32px; }
   .about-cofounder-card { grid-template-columns: 130px minmax(0, 1fr); gap: 18px; }
   .about-page .about-cofounder-card .about-founder-photo { width: 130px; height: 160px; }
   .about-specialist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1834,9 +1907,9 @@ button, input, select, textarea { font: inherit; }
   .main-nav {
     position: absolute;
     z-index: 30;
-    top: 64px;
-    right: 20px;
-    left: 20px;
+    top: calc(100% + 10px);
+    right: 24px;
+    left: 24px;
     display: flex;
     max-height: none;
     flex-direction: column;
@@ -1937,15 +2010,18 @@ button, input, select, textarea { font: inherit; }
   }
 
   .site-header { height: 70px; }
+  .main-nav { right: 20px; left: 20px; }
   .hero { min-height: 0; width: 100%; max-width: none; padding: 64px 20px 88px; }
   .hero-orbit,
   .hero-particle,
   .hero::after { display: none; }
   .hero-grid { height: 380px; opacity: 0.3; }
   .hero-atmosphere::before { width: 150vw; }
-  .hero-kicker { padding: 8px 13px; font-size: clamp(10px, 2.4vw, 12px); }
+  .hero-kicker { gap: 9px; padding-bottom: 8px; font-size: clamp(9px, 2.2vw, 10px); }
+  .hero-kicker > span { width: 18px; flex-basis: 18px; }
+  .hero-kicker::after { width: 18px; flex-basis: 18px; }
   .hero h1 { margin: 24px 0 20px; font-size: clamp(32px, 9vw, 56px); letter-spacing: -0.065em; }
-  .hero-line:nth-child(2) > span { line-height: 1.06; white-space: normal; }
+  .hero-line:nth-child(2) > span { line-height: 1.06; white-space: normal; translate: 0 0 !important; transition: none !important; }
   .hero-description { max-width: 480px; font-size: 14px; }
   .hero-actions { flex-wrap: wrap; gap: 16px; margin-top: 28px; }
   .button { min-height: 44px; padding-inline: 13px; font-size: 10px; }
@@ -1989,6 +2065,7 @@ button, input, select, textarea { font: inherit; }
   .orbit-inner { width: 154px; height: 154px; }
   .about-visual-core { width: 126px; height: 126px; }
   .about-visual-core strong { font-size: 17px; }
+  .about-visual-core span { font-size: 7px; letter-spacing: 0.04em; }
   .about-visual-chip { height: 38px; gap: 7px; padding: 0 10px; font-size: 9px; }
   .about-visual-chip span { width: 20px; height: 20px; }
   .chip-top { top: 12px; }
@@ -1996,6 +2073,10 @@ button, input, select, textarea { font: inherit; }
   .chip-bottom { bottom: 10px; }
   .about-founder-card { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 22px; }
   .about-founder-photo { width: min(210px, 100%); height: 260px; }
+  .about-leadership-grid .about-founder-card { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 22px; }
+  .about-leadership-grid .about-founder-photo { width: min(210px, 100%); height: 260px; }
+  .about-leadership-grid .about-ceo-card { padding: 26px 24px; }
+  .about-leadership-grid .about-ceo-card::before { top: 26px; bottom: 26px; }
   .about-page .about-cofounder-card { min-height: 0; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 16px; }
   .about-page .about-cofounder-card .about-founder-photo { width: 112px; height: 140px; }
   .about-page .about-cofounder-card .about-person-copy h2 { font-size: 20px; }
@@ -2046,7 +2127,6 @@ button, input, select, textarea { font: inherit; }
 /* First-load stability: decorative loops are static so a hard reload does not
    repaint dozens of large gradient layers every frame. Entrance animations and
    the rotating headline word are kept. */
-.brand-d-dot,
 .hero::before,
 .hero::after,
 .hero-atmosphere::before,
@@ -2069,12 +2149,9 @@ button, input, select, textarea { font: inherit; }
   animation: none !important;
 }
 
-.brand-mark img { animation: logo-reveal 800ms var(--ease) both !important; }
 .hero-kicker { animation: hero-rise 700ms var(--ease) both !important; }
 
 /* Low-power devices keep the design but drop decorative loops. */
-.low-power .brand-d-dot,
-.low-power .brand-mark img,
 .low-power .hero::before,
 .low-power .hero::after,
 .low-power .hero-atmosphere::before,
@@ -2083,7 +2160,6 @@ button, input, select, textarea { font: inherit; }
 .low-power .hero-orbit,
 .low-power .hero-particle,
 .low-power .hero-kicker,
-.low-power .headline-accent,
 .low-power .button-primary,
 .low-power .contact-card::before,
 .low-power .contact-glow,
@@ -2091,7 +2167,15 @@ button, input, select, textarea { font: inherit; }
 .low-power .about-visual-core,
 .low-power .about-visual-chip,
 .low-power .contact-page-hero::before,
-.low-power .contact-form::before { animation: none !important; }
+.low-power .contact-form::before,
+.low-power .brand-mark::after,
+.low-power .hero-line:nth-child(2) > span,
+.low-power .service-detail-shell,
+.low-power .service-detail-shell::before,
+.low-power .service-detail-shell.is-closing,
+.low-power .service-detail-items span { animation: none !important; }
+.low-power .service-detail-shell { will-change: auto; }
+.low-power .hero-line.is-measured:nth-child(2) > span { transition: none; }
 .low-power .reveal-pending,
 .low-power .reveal-pending.reveal-in {
   opacity: 1;
