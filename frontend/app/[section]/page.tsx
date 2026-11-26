@@ -6,7 +6,7 @@ const sectionMetadata = {
   services: {
     title: "What We Do | Draxvane Technologies",
     description:
-      "Explore software, websites, mobile apps, game development, design, AI, and digital operations services.",
+      "Explore software, websites, mobile apps, game development, design, AI pictures and videos, automation, and digital operations services.",
   },
   approach: {
     title: "Our Approach | Draxvane Technologies",

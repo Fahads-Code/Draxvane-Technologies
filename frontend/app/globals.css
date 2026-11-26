@@ -146,35 +146,18 @@ button, input, select, textarea { font: inherit; }
   align-items: center;
 }
 
-.brand-mark::after {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  /* White on the dark logo looks like the old screen-blended shine, but on the
-     white header it is invisible — no blend group means no per-frame repaint. */
-  background: linear-gradient(100deg, transparent 38%, rgba(255, 255, 255, 0.82) 50%, transparent 62%);
-  content: "";
-  opacity: 0;
-  pointer-events: none;
-  transform: translate3d(-130%, 0, 0) skewX(-18deg);
-  backface-visibility: hidden;
-  animation: logo-sheen 6s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
 .brand-mark img {
   display: block;
   width: 100%;
   height: auto;
   filter: var(--logo-filter);
-  /* Keep the filtered raster cached so the sheen only composites a layer. */
+  /* Static filtered layer: no sweep, no per-frame repaint, no stutter. */
   transform: translateZ(0);
   backface-visibility: hidden;
   transition: transform 260ms var(--ease);
 }
 
 .brand:hover .brand-mark img {
-  filter: var(--logo-filter) drop-shadow(0 6px 14px rgba(37, 99, 235, 0.24));
   transform: translate3d(0, -1px, 0);
 }
 
@@ -536,13 +519,34 @@ button, input, select, textarea { font: inherit; }
 .hero-line:nth-child(2) > span {
   animation-delay: 130ms;
   white-space: nowrap;
-  /* Independent from the entrance transform, so centering is composited.
-     JS adds .is-measured only after the first, jump-free offset is in place. */
-  translate: var(--hero-phrase-offset, 0px) 0;
 }
 
-.hero-line.is-measured:nth-child(2) > span {
-  transition: translate 520ms var(--ease);
+/* The box starts at the first word's natural width on the server render. On
+   each roll its width eases to the new word, so the whole line stays centred. */
+.rotating-phrase {
+  position: relative;
+  display: inline-block;
+  margin-left: 0.04em;
+  vertical-align: baseline;
+  white-space: nowrap;
+  transition: width 700ms var(--ease);
+}
+
+/* In-flow spacer: keeps the baseline and gives the first paint its width. */
+.phrase-sizer {
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+/* Hidden copies used only to measure every word's target width. */
+.phrase-measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 .headline-light { color: #6b7b95; }
@@ -1449,23 +1453,36 @@ button, input, select, textarea { font: inherit; }
   padding-bottom: 96px;
 }
 
+/* Founder gets the full width with a larger portrait and headline. */
+.about-founder-feature-card {
+  grid-template-columns: 320px minmax(0, 1fr);
+  min-height: 420px;
+  gap: clamp(32px, 6vw, 80px);
+  padding: 40px;
+}
+
+.about-founder-feature-card .about-founder-photo {
+  width: 320px;
+  height: 380px;
+}
+
+.about-founder-feature-card .about-person-copy h2 {
+  font-size: clamp(40px, 5vw, 64px);
+}
+
+.about-founder-feature-card .about-person-copy p {
+  max-width: 560px;
+  font-size: 15px;
+}
+
 .about-leadership-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   gap: 20px;
   align-items: stretch;
 }
 
-.about-leadership-grid .about-founder-card {
-  grid-template-columns: 210px minmax(0, 1fr);
-  gap: 24px;
-  padding: 26px;
-}
-
-.about-leadership-grid .about-founder-photo { width: 210px; height: 280px; }
-
-/* Text-only leadership card: no portrait, no monogram — just typography and
-   a clean gradient panel so it still feels deliberate beside the founder. */
+/* Text-only CEO card with a soft blue panel and a small role badge. */
 .about-leadership-grid .about-ceo-card {
   position: relative;
   grid-template-columns: minmax(0, 1fr);
@@ -1477,21 +1494,25 @@ button, input, select, textarea { font: inherit; }
     linear-gradient(135deg, #ffffff, #f0f5ff);
 }
 
-.about-leadership-grid .about-ceo-card::before {
-  position: absolute;
-  top: 34px;
-  bottom: 34px;
-  left: 0;
-  width: 2px;
-  border-radius: 0 2px 2px 0;
-  background: linear-gradient(180deg, var(--blue), var(--sky), transparent);
+.about-leadership-grid .about-ceo-card .about-person-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.about-leadership-grid .about-ceo-card .about-person-role::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
   content: "";
 }
 
 .about-leadership-grid .about-person-copy h2 { font-size: clamp(26px, 2.6vw, 38px); }
-.about-leadership-grid .about-ceo-card .about-person-copy h2 { font-size: clamp(30px, 3vw, 44px); }
+.about-leadership-grid .about-ceo-card .about-person-copy h2 { font-size: clamp(28px, 2.8vw, 40px); }
 .about-leadership-grid .about-ceo-card .about-person-copy p { max-width: 420px; }
-.about-leadership-grid .about-person-copy h2 span { display: block; }
+.about-founder-card .about-person-copy h2 span { display: block; }
 
 .about-person-card {
   display: flex;
@@ -1578,8 +1599,9 @@ button, input, select, textarea { font: inherit; }
 
 .about-cofounders-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 16px;
   align-items: stretch;
 }
 
@@ -1598,21 +1620,6 @@ button, input, select, textarea { font: inherit; }
 .about-page .about-cofounder-card .about-person-copy h2 { margin: 9px 0 10px; font-size: clamp(20px, 2vw, 26px); line-height: 1.15; }
 .about-page .about-cofounder-card .about-person-copy p { max-width: 42ch; }
 
-.about-avatar {
-  display: grid;
-  width: 54px;
-  height: 54px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid rgba(37, 99, 235, 0.2);
-  border-radius: 50%;
-  background: linear-gradient(145deg, #eaf2ff, #d9e8ff);
-  color: var(--blue);
-  font-size: 14px;
-  font-weight: 600;
-  transition: transform 420ms var(--ease), box-shadow 420ms ease;
-}
-
 .about-specialists-section {
   padding-top: 88px;
   padding-bottom: 104px;
@@ -1620,48 +1627,36 @@ button, input, select, textarea { font: inherit; }
 }
 
 .about-specialists-heading { margin-bottom: 39px; }
-.about-specialist-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 
-.about-specialist-card {
+.about-team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* Text-only, one-sided accent border — clean and professional, no portraits. */
+.about-page .about-team-card {
   display: flex;
-  min-height: 260px;
+  min-height: 220px;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 25px;
-  padding: 22px;
+  justify-content: center;
+  gap: 0;
+  padding: 28px 30px;
   border: 1px solid var(--line);
-  border-radius: 18px;
-  background: linear-gradient(155deg, #ffffff, var(--surface-soft));
+  border-left: 3px solid var(--blue);
+  border-radius: 14px 18px 18px 14px;
+  background: linear-gradient(180deg, #ffffff, var(--surface-soft));
   box-shadow: var(--shadow-sm);
-  transition: border-color 300ms ease, transform 380ms var(--ease), box-shadow 380ms ease, background 300ms ease;
 }
 
-.about-specialist-card:hover {
-  border-color: rgba(37, 99, 235, 0.32);
-  background: linear-gradient(155deg, #ffffff, var(--surface-blue));
-  box-shadow: var(--shadow-md);
-  transform: translateY(-5px);
+.about-team-card .about-person-copy h3 {
+  margin: 10px 0 12px;
+  font-size: clamp(24px, 2.4vw, 30px);
 }
 
-.about-specialist-card:hover .about-avatar {
-  box-shadow: 0 16px 34px rgba(37, 99, 235, 0.2);
-  transform: rotate(-6deg) scale(1.04);
-}
-
-.about-specialist-top {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--faint);
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.about-specialist-card .about-person-copy h3 { margin-top: 0; font-size: 18px; }
-.about-specialist-card .about-person-role { display: block; margin-bottom: 10px; line-height: 1.5; }
-.about-specialist-card .about-person-copy p { font-size: 12px; }
+.about-team-card .about-person-copy p { max-width: 46ch; font-size: 13px; }
 
 /* ------------------------------------------------------------ Contact page */
 .contact-page {
@@ -1944,12 +1939,6 @@ button, input, select, textarea { font: inherit; }
   82%, 100% { transform: translateX(450%) rotate(18deg); }
 }
 
-@keyframes logo-sheen {
-  0%, 52% { opacity: 0; transform: translate3d(-130%, 0, 0) skewX(-18deg); }
-  62% { opacity: 0.9; }
-  84%, 100% { opacity: 0; transform: translate3d(130%, 0, 0) skewX(-18deg); }
-}
-
 @keyframes aurora-spin {
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to { transform: translate(-50%, -50%) rotate(360deg); }
@@ -2027,13 +2016,13 @@ button, input, select, textarea { font: inherit; }
   .chip-right { right: -18px; }
   .about-founder-card { grid-template-columns: 220px minmax(0, 1fr); gap: 30px; padding: 26px; }
   .about-founder-photo { width: 220px; height: 280px; }
+  .about-founder-feature-card { grid-template-columns: 260px minmax(0, 1fr); min-height: 0; gap: 30px; padding: 28px; }
+  .about-founder-feature-card .about-founder-photo { width: 260px; height: 320px; }
   .about-leadership-grid { grid-template-columns: minmax(0, 1fr); }
-  .about-leadership-grid .about-founder-card { grid-template-columns: 220px minmax(0, 1fr); gap: 30px; padding: 26px; }
-  .about-leadership-grid .about-founder-photo { width: 220px; height: 280px; }
   .about-leadership-grid .about-ceo-card { padding: 30px 32px; }
-  .about-cofounder-card { grid-template-columns: 130px minmax(0, 1fr); gap: 18px; }
-  .about-page .about-cofounder-card .about-founder-photo { width: 130px; height: 160px; }
-  .about-specialist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about-page .about-cofounder-card { grid-template-columns: 150px minmax(0, 1fr); gap: 22px; }
+  .about-page .about-cofounder-card .about-founder-photo { width: 150px; height: 180px; }
+  .about-page .about-team-card { padding: 24px; }
   .contact-page-hero { grid-template-columns: minmax(0, 1fr) 260px; gap: 36px; }
   .contact-card { padding: 38px; }
   .step-card { padding-inline: 18px; }
@@ -2249,18 +2238,18 @@ button, input, select, textarea { font: inherit; }
   .chip-bottom { bottom: 10px; }
   .about-founder-card { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 22px; }
   .about-founder-photo { width: min(210px, 100%); height: 260px; }
-  .about-leadership-grid .about-founder-card { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 22px; }
-  .about-leadership-grid .about-founder-photo { width: min(210px, 100%); height: 260px; }
+  .about-founder-feature-card { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 22px; }
+  .about-founder-feature-card .about-founder-photo { width: min(260px, 100%); height: 300px; }
+  .about-founder-feature-card .about-person-copy h2 { font-size: clamp(36px, 9vw, 48px); }
   .about-leadership-grid .about-ceo-card { padding: 26px 24px; }
-  .about-leadership-grid .about-ceo-card::before { top: 26px; bottom: 26px; }
   .about-page .about-cofounder-card { min-height: 0; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 16px; }
   .about-page .about-cofounder-card .about-founder-photo { width: 112px; height: 140px; }
   .about-page .about-cofounder-card .about-person-copy h2 { font-size: 20px; }
   .about-specialists-section { padding-top: 70px; padding-bottom: 76px; }
   .about-specialists-heading { margin-bottom: 28px; }
-  .about-specialist-grid { grid-template-columns: minmax(0, 1fr); }
-  .about-specialist-card { min-height: 0; gap: 22px; padding: 20px; }
-  .about-page .about-specialist-card .about-person-copy h3 { font-size: 19px; }
+  .about-team-grid { grid-template-columns: minmax(0, 1fr); }
+  .about-page .about-team-card { min-height: 0; padding: 22px; }
+  .about-team-card .about-person-copy h3 { font-size: 22px; }
   .contact-page-hero { min-height: 0; grid-template-columns: minmax(0, 1fr); gap: 34px; padding-block: 48px 42px; }
   .contact-page-copy h1 { font-size: clamp(44px, 12vw, 66px); }
   .contact-page-copy > p { font-size: 14px; }
@@ -2344,14 +2333,13 @@ button, input, select, textarea { font: inherit; }
 .low-power .about-visual-chip,
 .low-power .contact-page-hero::before,
 .low-power .contact-form::before,
-.low-power .brand-mark::after,
 .low-power .hero-line:nth-child(2) > span,
 .low-power .service-detail-shell,
 .low-power .service-detail-shell::before,
 .low-power .service-detail-shell.is-closing,
 .low-power .service-detail-items span { animation: none !important; }
 .low-power .service-detail-shell { will-change: auto; }
-.low-power .hero-line.is-measured:nth-child(2) > span { transition: none; }
+.low-power .rotating-phrase { transition: none; }
 .low-power .reveal-pending,
 .low-power .reveal-pending.reveal-in {
   opacity: 1;

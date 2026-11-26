@@ -104,6 +104,21 @@ const services = [
   },
   {
     number: "08",
+    title: "AI pictures & videos",
+    description:
+      "AI-made images and short videos for products, posts, and campaigns. We shape each one to fit your brand, then edit it until it looks right.",
+    details: [
+      "AI product photos",
+      "Campaign and social visuals",
+      "Brand-consistent image styles",
+      "Short promotional videos",
+      "Video scripts and storyboards",
+      "Image and video editing",
+      "Ready-to-use exports",
+    ],
+  },
+  {
+    number: "09",
     title: "Data entry & digital operations",
     description:
       "Accurate, organized support for the detail-heavy work that keeps your digital business moving.",
@@ -117,7 +132,7 @@ const services = [
     ],
   },
   {
-    number: "09",
+    number: "10",
     title: "Content & digital marketing",
     description:
       "Consistent digital content and campaign support that helps your business reach the right people.",

@@ -4,60 +4,36 @@ import Link from "next/link";
 import HeaderNavigation from "../../components/HeaderNavigation";
 import SiteFooter from "../../components/SiteFooter";
 
-const specialists = [
+const teamMembers = [
   {
-    number: "01",
-    name: "Team Member 01",
-    role: "Custom software",
-    description: "Tailored platforms, business tools, and software built around your needs.",
+    name: "Fahad Mehmood",
+    role: "Software & AI automation",
+    description:
+      "Fahad builds software and looks after the AI and automation side. He finds the work that repeats, connects the right tools, and sets up workflows the team can actually use day to day.",
   },
   {
-    number: "02",
-    name: "Team Member 02",
-    role: "Websites & e-commerce",
-    description: "Business websites and online stores designed to work beautifully.",
+    name: "Zara Saleem",
+    role: "AI pictures & videos · Content",
+    description:
+      "Zara handles the AI picture and video work and writes the content that goes with it. She takes an idea from the first draft to something ready to publish.",
   },
   {
-    number: "03",
-    name: "Team Member 03",
+    name: "Muneeb Mushtaq",
+    role: "Mobile App Developer",
+    description:
+      "Muneeb builds mobile apps for iOS and Android. He takes an idea from the first screen to a working release and stays on top of the details.",
+  },
+  {
+    name: "Syed Abdul Babar",
+    role: "Website Developer",
+    description:
+      "Babar builds and maintains websites. He makes sure they stay fast, reliable, and easy for the client to update.",
+  },
+  {
+    name: "Esha Wajahat",
     role: "WordPress & Shopify",
-    description: "Custom WordPress and Shopify experiences, from themes to store setup.",
-  },
-  {
-    number: "04",
-    name: "Team Member 04",
-    role: "Mobile apps",
-    description: "Useful mobile experiences for iOS, Android, and cross-platform products.",
-  },
-  {
-    number: "05",
-    name: "Team Member 05",
-    role: "Game development",
-    description: "Game design and development, from early concepts to playable releases.",
-  },
-  {
-    number: "06",
-    name: "Team Member 06",
-    role: "Graphic design & branding",
-    description: "Visual identities and creative assets that make brands stand out.",
-  },
-  {
-    number: "07",
-    name: "Team Member 07",
-    role: "AI & automation",
-    description: "Practical AI and workflows that help simplify repeatable work.",
-  },
-  {
-    number: "08",
-    name: "Team Member 08",
-    role: "Data entry & digital operations",
-    description: "Accurate data support and organized digital business operations.",
-  },
-  {
-    number: "09",
-    name: "Team Member 09",
-    role: "Content & digital marketing",
-    description: "Digital content and campaigns that help businesses reach their audience.",
+    description:
+      "Esha handles our WordPress and Shopify work. She builds themes, sets up stores, and sorts out the small things that make a site easy to use and easy to update.",
   },
 ];
 
@@ -106,8 +82,9 @@ export default function AboutPage() {
               alt="Draxvane Technologies"
               width={2090}
               height={375}
-              sizes="210px"
+              sizes="(max-width: 700px) 172px, 210px"
               decoding="async"
+              fetchPriority="high"
               preload
               unoptimized
             />
@@ -157,31 +134,31 @@ export default function AboutPage() {
       </section>
 
       <section className="about-founder-section section-shell">
-        <div className="about-leadership-grid">
-          <div className="about-person-card about-founder-card">
-            <div className="about-founder-photo">
-              <Image
-                src="/Founder.png"
-                alt="Fahad Mehmood, Founder of Draxvane Technologies"
-                fill
-                sizes="(max-width: 700px) 210px, 280px"
-                priority
-              />
-            </div>
-            <div className="about-person-copy">
-              <span className="about-person-role">Founder</span>
-              <h2>
-                <span>Fahad</span>
-                <span>Mehmood</span>
-              </h2>
-              <p>
-                Fahad founded Draxvane Technologies to bring creative,
-                technical, and operational skills under one roof. He sets the
-                vision, shapes the right team for each project, and keeps the
-                work grounded in real business needs.
-              </p>
-            </div>
+        <div className="about-person-card about-founder-card about-founder-feature-card">
+          <div className="about-founder-photo">
+            <Image
+              src="/Founder.png"
+              alt="Fahad Mehmood, Founder of Draxvane Technologies"
+              fill
+              sizes="(max-width: 700px) 260px, 320px"
+              priority
+            />
           </div>
+          <div className="about-person-copy">
+            <span className="about-person-role">Founder</span>
+            <h2>
+              <span>Fahad</span>
+              <span>Mehmood</span>
+            </h2>
+            <p>
+              Fahad founded Draxvane Technologies to bring creative,
+              technical, and operational skills under one roof. He sets the
+              vision, shapes the right team for each project, and keeps the
+              work grounded in real business needs.
+            </p>
+          </div>
+        </div>
+        <div className="about-leadership-grid">
           <div className="about-person-card about-founder-card about-ceo-card">
             <div className="about-person-copy">
               <span className="about-person-role">CEO</span>
@@ -197,28 +174,28 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-        </div>
-        <div className="about-cofounders-grid">
-          {cofounders.map((cofounder) => (
-            <article
-              className="about-person-card about-founder-card about-cofounder-card"
-              key={cofounder.name}
-            >
-              <div className="about-founder-photo">
-                <Image
-                  src={cofounder.image}
-                  alt={`${cofounder.name}, Co-founder of Draxvane Technologies`}
-                  fill
-                  sizes="(max-width: 700px) 120px, 180px"
-                />
-              </div>
-              <div className="about-person-copy">
-                <span className="about-person-role">Co-founder</span>
-                <h2>{cofounder.name}</h2>
-                <p>{cofounder.description}</p>
-              </div>
-            </article>
-          ))}
+          <div className="about-cofounders-grid">
+            {cofounders.map((cofounder) => (
+              <article
+                className="about-person-card about-founder-card about-cofounder-card"
+                key={cofounder.name}
+              >
+                <div className="about-founder-photo">
+                  <Image
+                    src={cofounder.image}
+                    alt={`${cofounder.name}, Co-founder of Draxvane Technologies`}
+                    fill
+                    sizes="(max-width: 700px) 130px, 160px"
+                  />
+                </div>
+                <div className="about-person-copy">
+                  <span className="about-person-role">Co-founder</span>
+                  <h2>{cofounder.name}</h2>
+                  <p>{cofounder.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -228,29 +205,23 @@ export default function AboutPage() {
         <div className="section-heading about-specialists-heading">
           <div>
             <div className="eyebrow">
-              <span className="eyebrow-line" />Our capabilities, our people
+              <span className="eyebrow-line" />Our people
             </div>
-            <h2>Specialists for <span>every kind of digital work.</span></h2>
+            <h2>Good work starts with <span>the right people.</span></h2>
           </div>
           <p>
-            From software engineering and design to AI and digital operations,
-            we bring the right specialist to the work at hand.
+            A small team, clear ownership, and no hand-offs to people who don&apos;t
+            know your project.
           </p>
         </div>
 
-        <div className="about-specialist-grid">
-          {specialists.map((specialist) => (
-            <article className="about-specialist-card" key={specialist.number}>
-              <div className="about-specialist-top">
-                <span>{specialist.number}</span>
-                <div className="about-avatar" aria-hidden="true">
-                  {specialist.number}
-                </div>
-              </div>
+        <div className="about-team-grid">
+          {teamMembers.map((member) => (
+            <article className="about-person-card about-team-card" key={member.name}>
               <div className="about-person-copy">
-                <h3>{specialist.name}</h3>
-                <span className="about-person-role">{specialist.role}</span>
-                <p>{specialist.description}</p>
+                <span className="about-person-role">{member.role}</span>
+                <h3>{member.name}</h3>
+                <p>{member.description}</p>
               </div>
             </article>
           ))}

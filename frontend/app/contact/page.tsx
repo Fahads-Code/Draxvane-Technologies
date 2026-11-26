@@ -74,8 +74,9 @@ export default function ContactPage() {
               alt="Draxvane Technologies"
               width={2090}
               height={375}
-              sizes="210px"
+              sizes="(max-width: 700px) 172px, 210px"
               decoding="async"
+              fetchPriority="high"
               preload
               unoptimized
             />
@@ -147,6 +148,7 @@ export default function ContactPage() {
                 <option>Game development</option>
                 <option>Graphic design or branding</option>
                 <option>AI or automation</option>
+                <option>AI pictures or videos</option>
                 <option>Data entry or digital operations</option>
                 <option>Something else</option>
               </select>

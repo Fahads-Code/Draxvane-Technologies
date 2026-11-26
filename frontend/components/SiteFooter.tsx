@@ -9,12 +9,13 @@ export default function SiteFooter() {
           <Link className="brand footer-brand" href="/" aria-label="Draxvane Technologies home">
             <span className="brand-mark">
               <Image
-                src="/draxvane-transparent.png"
+                src="/draxvane-logo.webp"
                 alt="Draxvane Technologies"
                 width={2090}
                 height={375}
                 sizes="170px"
                 decoding="async"
+                unoptimized
               />
             </span>
           </Link>

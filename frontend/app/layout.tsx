@@ -13,7 +13,7 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "Draxvane Technologies | Your All-in-One Digital Team",
   description:
-    "Custom software, websites, mobile apps, game development, graphic design, AI, and data-entry support—all from one digital team.",
+    "Custom software, websites, mobile apps, game development, graphic design, AI pictures and videos, automation, and data-entry support—all from one digital team.",
   icons: {
     icon: "/Dynamic%20Pixel%20D%20Logo.png",
     shortcut: "/Dynamic%20Pixel%20D%20Logo.png",

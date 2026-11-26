@@ -13,22 +13,12 @@ const rotatingPhrases = ["need.", "idea.", "launch.", "vision."];
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const ROLL_MS = 700;
 
-/* Layout effects must run before the browser paints, but the component is also
-   rendered on the server — fall back to useEffect there to avoid SSR warnings. */
+/* Layout effects run before paint on the client, but this module is also
+   evaluated during SSR — fall back to useEffect there. */
 const useIsomorphicLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 type WordState = "active" | "leaving" | "idle";
-
-const phraseStyle: CSSProperties = {
-  position: "relative",
-  display: "inline-block",
-  /* Small optical nudge so the gap after "digital" matches the gap after "Every". */
-  marginLeft: "0.04em",
-  verticalAlign: "baseline",
-  whiteSpace: "nowrap",
-  overflow: "visible",
-};
 
 /* Keeps the full stop from visually merging with the final letter under the
    headline's tight letter-spacing. */
@@ -56,7 +46,6 @@ function wordStyle(state: WordState): CSSProperties {
           ? "translate3d(0, -24px, 0) scale(0.96)"
           : "translate3d(0, 24px, 0) scale(0.96)",
     transition: `transform ${ROLL_MS}ms ${EASE}, opacity 500ms ease`,
-    /* Only the two words taking part in a roll need a composited layer. */
     willChange: state === "idle" ? "auto" : "transform, opacity",
   };
 }
@@ -65,114 +54,67 @@ export default function HeroPhrase() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [leavingIndex, setLeavingIndex] = useState<number | null>(null);
   const indexRef = useRef(0);
-  const widthsRef = useRef<number[]>([]);
-  const measureRef = useRef<HTMLSpanElement>(null);
   const phraseRef = useRef<HTMLSpanElement>(null);
+  const sizerRef = useRef<HTMLSpanElement>(null);
+  const measureRef = useRef<HTMLSpanElement>(null);
+  const widthsRef = useRef<number[]>([]);
+  const readyRef = useRef(false);
 
-  /* Widths and the centring offset are written straight to the DOM before
-     paint. Going through React state used to re-render after the first frame,
-     which resized the phrase and slid the whole headline — the first-load jerk. */
-  const applyLayout = useCallback((transitionEnabled: boolean) => {
+  /* The in-flow sizer renders the current word, so the server-rendered line is
+     already centred with the correct width. Hidden copies provide the widths
+     we ease to on later rolls. */
+  const applyWidth = useCallback((index: number) => {
     const phrase = phraseRef.current;
-    const line = phrase?.closest(".hero-line") as HTMLElement | null;
-    const nodes = measureRef.current?.children;
-    if (!phrase || !line || !nodes?.length) return;
+    const widths = widthsRef.current;
+    if (!phrase || !widths.length) return;
+    phrase.style.width = `${widths[index] ?? widths[0]}px`;
+  }, []);
 
-    const widths = Array.from(nodes, (node) =>
+  const measure = useCallback(() => {
+    const nodes = measureRef.current?.children;
+    if (!nodes?.length) return;
+    widthsRef.current = Array.from(nodes, (node) =>
       (node as HTMLElement).getBoundingClientRect().width,
     );
-    widthsRef.current = widths;
-
-    const maxWidth = Math.max(...widths);
-    /* Fixed box: changing words can never reflow "Every digital". */
-    phrase.style.width = `${maxWidth}px`;
-
-    /* First measurement (and a font swap) must land instantly. The class is
-       re-added on the next frame, before any real word change happens. */
-    if (!transitionEnabled) line.classList.remove("is-measured");
-
-    const activeWidth = widths[indexRef.current] ?? maxWidth;
-    const offset = Math.round(((maxWidth - activeWidth) / 2) * 100) / 100;
-    line.style.setProperty("--hero-phrase-offset", `${Math.max(0, offset)}px`);
   }, []);
 
   useIsomorphicLayoutEffect(() => {
     const phrase = phraseRef.current;
-    const line = phrase?.closest(".hero-line") as HTMLElement | null;
-    if (!phrase || !line) return;
+    if (!phrase) return;
 
-    let frame = 0;
-    let cancelled = false;
-
-    const remeasure = (transitionEnabled: boolean) => {
-      if (cancelled) return;
-      applyLayout(transitionEnabled);
-      if (!transitionEnabled) {
-        cancelAnimationFrame(frame);
-        frame = requestAnimationFrame(() => {
-          if (!cancelled) line.classList.add("is-measured");
-        });
-      }
-    };
-
-    remeasure(false);
-
-    /* Web fonts can settle after hydration; re-measure before enabling the
-       centring transition so the corrected widths never animate into place.
-       With preloaded fonts the first measurement already uses final metrics,
-       so skip the duplicate forced layout. */
+    measure();
     if (document.fonts?.status !== "loaded") {
-      document.fonts?.ready.then(() => remeasure(false));
+      document.fonts?.ready.then(() => {
+        measure();
+        if (readyRef.current) applyWidth(indexRef.current);
+      });
     }
 
-    /* A resize burst can fire dozens of times; measure at most once per frame
-       so the width reads and writes never pile up on the main thread. */
-    let resizeFrame = 0;
+    /* Arm the width transition only after the first paint. The first word
+       keeps its natural width, so there is no first-load jump. */
+    const frame = requestAnimationFrame(() => {
+      readyRef.current = true;
+    });
+
     const onResize = () => {
-      cancelAnimationFrame(resizeFrame);
-      resizeFrame = requestAnimationFrame(() => remeasure(true));
+      measure();
+      if (readyRef.current) applyWidth(indexRef.current);
     };
     window.addEventListener("resize", onResize, { passive: true });
 
-    /* ResizeObserver fires once on observe(); that initial size is already
-       measured above, so only react to real size changes afterwards. */
-    let observerReady = false;
-    const observer =
-      typeof ResizeObserver === "undefined"
-        ? null
-        : new ResizeObserver(() => {
-            if (!observerReady) {
-              observerReady = true;
-              return;
-            }
-            remeasure(true);
-          });
-    if (measureRef.current) observer?.observe(measureRef.current);
-
     return () => {
-      cancelled = true;
       cancelAnimationFrame(frame);
-      cancelAnimationFrame(resizeFrame);
-      observer?.disconnect();
       window.removeEventListener("resize", onResize);
-      line.classList.remove("is-measured");
-      line.style.removeProperty("--hero-phrase-offset");
+      readyRef.current = false;
       phrase.style.removeProperty("width");
     };
-  }, [applyLayout]);
+  }, [applyWidth, measure]);
 
-  /* Each roll keeps "Every digital" optically centred. This runs in a layout
-     effect too, so the composited translate starts on the very same frame. */
+  /* On each roll the box eases to the new word's width; the centred line
+     follows it smoothly instead of being pushed off centre. */
   useIsomorphicLayoutEffect(() => {
-    const line = phraseRef.current?.closest(".hero-line") as HTMLElement | null;
-    const widths = widthsRef.current;
-    if (!line || !widths.length) return;
-
-    const maxWidth = Math.max(...widths);
-    const activeWidth = widths[phraseIndex] ?? maxWidth;
-    const offset = Math.round(((maxWidth - activeWidth) / 2) * 100) / 100;
-    line.style.setProperty("--hero-phrase-offset", `${Math.max(0, offset)}px`);
-  }, [phraseIndex]);
+    if (readyRef.current) applyWidth(phraseIndex);
+  }, [phraseIndex, applyWidth]);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -201,25 +143,14 @@ export default function HeroPhrase() {
   }, []);
 
   return (
-    <span className="rotating-phrase" ref={phraseRef} style={phraseStyle}>
-      {/* In-flow spacer keeps the baseline; measured widths keep the line centred. */}
-      <span aria-hidden="true" style={{ visibility: "hidden", whiteSpace: "nowrap" }}>
+    <span className="rotating-phrase" ref={phraseRef}>
+      {/* In-flow spacer: gives the first paint the natural width of word one. */}
+      <span className="phrase-sizer" aria-hidden="true" ref={sizerRef}>
         <PhraseText phrase={rotatingPhrases[phraseIndex]} />
       </span>
 
-      <span
-        ref={measureRef}
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          display: "flex",
-          visibility: "hidden",
-          pointerEvents: "none",
-          whiteSpace: "nowrap",
-        }}
-      >
+      {/* Hidden copies used only for measuring the target widths. */}
+      <span className="phrase-measure" aria-hidden="true" ref={measureRef}>
         {rotatingPhrases.map((phrase) => (
           <span key={phrase}>
             <PhraseText phrase={phrase} />

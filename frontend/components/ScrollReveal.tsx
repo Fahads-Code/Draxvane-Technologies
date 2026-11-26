@@ -12,7 +12,6 @@ const REVEAL_SELECTOR = [
   ".about-hero-copy > *",
   ".about-hero-visual",
   ".about-person-card",
-  ".about-specialist-card",
   ".contact-card",
   ".contact-page-copy > *",
   ".contact-details",
