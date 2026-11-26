@@ -24,6 +24,16 @@ export default function HeaderNavigation() {
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
+  const scrollToSection = (id: string) => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    document.getElementById(id)?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  };
+
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setIsMenuOpen(false);
@@ -52,7 +62,14 @@ export default function HeaderNavigation() {
           className={isActive("/services") ? "is-active" : undefined}
           aria-current={isActive("/services") ? "page" : undefined}
           href="/services"
-          onClick={() => setIsMenuOpen(false)}
+          scroll={false}
+          onClick={(event) => {
+            if (pathname === "/services") {
+              event.preventDefault();
+              scrollToSection("services");
+            }
+            setIsMenuOpen(false);
+          }}
         >
           What we do
         </Link>
@@ -60,7 +77,14 @@ export default function HeaderNavigation() {
           className={isActive("/approach") ? "is-active" : undefined}
           aria-current={isActive("/approach") ? "page" : undefined}
           href="/approach"
-          onClick={() => setIsMenuOpen(false)}
+          scroll={false}
+          onClick={(event) => {
+            if (pathname === "/approach") {
+              event.preventDefault();
+              scrollToSection("approach");
+            }
+            setIsMenuOpen(false);
+          }}
         >
           Our approach
         </Link>

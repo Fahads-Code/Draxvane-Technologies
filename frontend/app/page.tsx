@@ -58,7 +58,7 @@ export default function Home({ initialSection }: { initialSection?: string }) {
               height={375}
               sizes="(max-width: 700px) 172px, 210px"
               quality={90}
-              decoding="sync"
+              decoding="async"
               fetchPriority="high"
               preload
             />
@@ -95,16 +95,16 @@ export default function Home({ initialSection }: { initialSection?: string }) {
             <Link className="button button-primary" href="/contact">
               Tell us what you need <ArrowIcon />
             </Link>
-            <Link className="text-link" href="/services">
+            <Link className="text-link" href="/services" scroll={false}>
               Explore our services <ArrowIcon />
             </Link>
           </div>
           <div className="hero-note" role="group" aria-label="Our capabilities">
-            <span>Creative</span>
+            <span>Budget</span>
             <i aria-hidden="true" />
-            <span>Technical</span>
+            <span>Quality</span>
             <i aria-hidden="true" />
-            <span>Operational</span>
+            <span>Performance</span>
           </div>
         </div>
       </section>
@@ -123,7 +123,7 @@ export default function Home({ initialSection }: { initialSection?: string }) {
               place on the same team. Work with one point of contact and a clear
               plan, whatever the task.
             </p>
-            <Link className="text-link" href="/approach">
+            <Link className="text-link" href="/approach" scroll={false}>
               How we work <ArrowIcon />
             </Link>
           </div>

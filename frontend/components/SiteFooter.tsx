@@ -23,8 +23,8 @@ export default function SiteFooter() {
 
         <nav className="footer-nav" aria-label="Footer navigation">
           <Link href="/">Home</Link>
-          <Link href="/services">What we do</Link>
-          <Link href="/approach">Our approach</Link>
+          <Link href="/services" scroll={false}>What we do</Link>
+          <Link href="/approach" scroll={false}>Our approach</Link>
           <Link href="/about">About us</Link>
           <Link href="/contact">Let&apos;s talk</Link>
         </nav>

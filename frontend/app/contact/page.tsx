@@ -75,7 +75,7 @@ export default function ContactPage() {
               width={2090}
               height={375}
               sizes="210px"
-              decoding="sync"
+              decoding="async"
               preload
               unoptimized
             />

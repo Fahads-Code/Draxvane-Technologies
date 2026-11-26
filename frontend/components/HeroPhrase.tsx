@@ -118,21 +118,41 @@ export default function HeroPhrase() {
     remeasure(false);
 
     /* Web fonts can settle after hydration; re-measure before enabling the
-       centring transition so the corrected widths never animate into place. */
-    document.fonts?.ready.then(() => remeasure(false));
+       centring transition so the corrected widths never animate into place.
+       With preloaded fonts the first measurement already uses final metrics,
+       so skip the duplicate forced layout. */
+    if (document.fonts?.status !== "loaded") {
+      document.fonts?.ready.then(() => remeasure(false));
+    }
 
-    const onResize = () => remeasure(true);
+    /* A resize burst can fire dozens of times; measure at most once per frame
+       so the width reads and writes never pile up on the main thread. */
+    let resizeFrame = 0;
+    const onResize = () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => remeasure(true));
+    };
     window.addEventListener("resize", onResize, { passive: true });
 
+    /* ResizeObserver fires once on observe(); that initial size is already
+       measured above, so only react to real size changes afterwards. */
+    let observerReady = false;
     const observer =
       typeof ResizeObserver === "undefined"
         ? null
-        : new ResizeObserver(() => remeasure(true));
+        : new ResizeObserver(() => {
+            if (!observerReady) {
+              observerReady = true;
+              return;
+            }
+            remeasure(true);
+          });
     if (measureRef.current) observer?.observe(measureRef.current);
 
     return () => {
       cancelled = true;
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(resizeFrame);
       observer?.disconnect();
       window.removeEventListener("resize", onResize);
       line.classList.remove("is-measured");

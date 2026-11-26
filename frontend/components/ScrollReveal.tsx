@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { routeState } from "./routeState";
 
 const REVEAL_SELECTOR = [
   ".section-heading",
@@ -38,6 +39,11 @@ export default function ScrollReveal() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Runs after child layout effects, so SectionScroll can still read the
+    // route we came from while deciding smooth vs instant positioning.
+    routeState.previous = routeState.current;
+    routeState.current = pathname;
+
     const root = document.documentElement;
     const navigatorWithMemory = navigator as Navigator & { deviceMemory?: number };
     const cores = navigator.hardwareConcurrency ?? 8;
