@@ -6,6 +6,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type CSSProperties,
 } from "react";
 
@@ -50,9 +51,19 @@ function wordStyle(state: WordState): CSSProperties {
   };
 }
 
+const subscribeNothing = () => () => {};
+
 export default function HeroPhrase() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [leavingIndex, setLeavingIndex] = useState<number | null>(null);
+  /* Only the active phrase is rendered on the server. Hidden measuring copies
+     and the other animation states are added after hydration so link scrapers
+     never see every rotating word crammed into the headline. */
+  const mounted = useSyncExternalStore(
+    subscribeNothing,
+    () => true,
+    () => false,
+  );
   const indexRef = useRef(0);
   const phraseRef = useRef<HTMLSpanElement>(null);
   const sizerRef = useRef<HTMLSpanElement>(null);
@@ -108,7 +119,7 @@ export default function HeroPhrase() {
       readyRef.current = false;
       phrase.style.removeProperty("width");
     };
-  }, [applyWidth, measure]);
+  }, [applyWidth, measure, mounted]);
 
   /* On each roll the box eases to the new word's width; the centred line
      follows it smoothly instead of being pushed off centre. */
@@ -144,23 +155,32 @@ export default function HeroPhrase() {
 
   return (
     <span className="rotating-phrase" ref={phraseRef}>
-      {/* In-flow spacer: gives the first paint the natural width of word one. */}
-      <span className="phrase-sizer" aria-hidden="true" ref={sizerRef}>
+      {/* In-flow word: visible on the server (so no-JS visitors and scrapers
+          see a single clean phrase), then hidden once the animated copies
+          take over after hydration. It still sets the box width. */}
+      <span
+        className={`headline-accent phrase-sizer${mounted ? " phrase-sizer-hidden" : ""}`}
+        aria-hidden={mounted}
+        ref={sizerRef}
+      >
         <PhraseText phrase={rotatingPhrases[phraseIndex]} />
       </span>
 
-      {/* Hidden copies used only for measuring the target widths. */}
+      {/* Hidden copies used only for measuring the target widths. They are
+          added after hydration to keep the server HTML free of every phrase. */}
       <span className="phrase-measure" aria-hidden="true" ref={measureRef}>
-        {rotatingPhrases.map((phrase) => (
-          <span key={phrase}>
-            <PhraseText phrase={phrase} />
-          </span>
-        ))}
+        {mounted
+          ? rotatingPhrases.map((phrase) => (
+              <span key={phrase}>
+                <PhraseText phrase={phrase} />
+              </span>
+            ))
+          : null}
       </span>
 
-      <span className="phrase-sr-only">{rotatingPhrases[phraseIndex]}</span>
-
       {rotatingPhrases.map((phrase, index) => {
+        if (!mounted) return null;
+
         const state: WordState =
           index === phraseIndex
             ? "active"
@@ -173,7 +193,7 @@ export default function HeroPhrase() {
             key={phrase}
             className="headline-accent rotating-phrase-word"
             style={wordStyle(state)}
-            aria-hidden="true"
+            aria-hidden={index !== phraseIndex}
           >
             <PhraseText phrase={phrase} />
           </span>

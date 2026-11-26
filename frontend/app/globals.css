@@ -532,10 +532,14 @@ button, input, select, textarea { font: inherit; }
   transition: width 700ms var(--ease);
 }
 
-/* In-flow spacer: keeps the baseline and gives the first paint its width. */
+/* In-flow word: visible on the server render, hidden once the animated copies
+   are hydrated. It keeps the baseline and gives the box its width. */
 .phrase-sizer {
-  visibility: hidden;
   white-space: nowrap;
+}
+
+.phrase-sizer-hidden {
+  visibility: hidden;
 }
 
 /* Hidden copies used only to measure every word's target width. */
@@ -558,18 +562,6 @@ button, input, select, textarea { font: inherit; }
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-}
-
-.phrase-sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
 
 .hero-description {

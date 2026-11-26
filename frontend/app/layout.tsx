@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import JsonLd from "../components/JsonLd";
 import ScrollReveal from "../components/ScrollReveal";
+import { createMetadata } from "./seo";
+import { siteSchema } from "./structured-data";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,14 +14,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Draxvane Technologies | Your All-in-One Digital Team",
-  description:
-    "Custom software, websites, mobile apps, game development, graphic design, AI pictures and videos, automation, and data-entry support—all from one digital team.",
-  icons: {
-    icon: "/Dynamic%20Pixel%20D%20Logo.png",
-    shortcut: "/Dynamic%20Pixel%20D%20Logo.png",
-    apple: "/apple-icon.png",
-  },
+  ...createMetadata(),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -28,6 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <JsonLd data={siteSchema} />
         <ScrollReveal />
         {children}
       </body>

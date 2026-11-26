@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import HeaderNavigation from "../../components/HeaderNavigation";
+import JsonLd from "../../components/JsonLd";
 import SiteFooter from "../../components/SiteFooter";
+import { createMetadata } from "../seo";
+import { pageSchema } from "../structured-data";
 
 const teamMembers = [
   {
@@ -52,11 +55,17 @@ const cofounders = [
   },
 ];
 
-export const metadata: Metadata = {
+const aboutDescription =
+  "Meet the Draxvane Technologies team, a full-service digital agency for software, websites, mobile apps, design, games, AI, and digital operations.";
+
+export const metadata: Metadata = createMetadata({
   title: "About Us | Draxvane Technologies",
-  description:
-    "Meet the Draxvane Technologies team, a full-service digital agency for software, websites, mobile apps, design, games, AI, and digital operations.",
-};
+  description: aboutDescription,
+  path: "/about",
+  ogTitle: "Meet the team",
+  ogSubtitle: "Built around what businesses need",
+  ogKicker: "ABOUT DRAXVANE",
+});
 
 function ArrowIcon({ diagonal = false }: { diagonal?: boolean }) {
   return (
@@ -73,7 +82,16 @@ function ArrowIcon({ diagonal = false }: { diagonal?: boolean }) {
 
 export default function AboutPage() {
   return (
-    <main className="about-page">
+    <>
+      <JsonLd
+        data={pageSchema({
+          path: "/about",
+          name: "About Us",
+          description: aboutDescription,
+          type: "AboutPage",
+        })}
+      />
+      <main className="about-page">
       <header className="site-header">
         <Link className="brand" href="/" aria-label="Draxvane Technologies home">
           <span className="brand-mark">
@@ -248,6 +266,7 @@ export default function AboutPage() {
       </section>
 
       <SiteFooter />
-    </main>
+      </main>
+    </>
   );
 }
