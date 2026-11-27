@@ -35,7 +35,6 @@ export default function ContactPage() {
     const email = String(form.get("email") || "");
     const company = String(form.get("company") || "");
     const service = String(form.get("service") || "");
-    const budget = String(form.get("budget") || "");
     const message = String(form.get("message") || "");
     const website = String(form.get("website") || "");
 
@@ -47,7 +46,7 @@ export default function ContactPage() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, company, service, budget, message, website }),
+        body: JSON.stringify({ name, email, company, service, message, website }),
       });
       const result = await response.json();
 
@@ -98,9 +97,18 @@ export default function ContactPage() {
         </div>
 
         <aside className="contact-details" aria-label="Contact details">
+          <figure className="contact-aside-image">
+            <Image
+              src="/images/design-review.jpg"
+              alt="Draxvane team reviewing a project together"
+              fill
+              sizes="260px"
+              decoding="async"
+            />
+          </figure>
           <div>
             <span>Email</span>
-            <a href="mailto:hello@draxvane.com">hello@draxvane.com</a>
+            <a href="mailto:company@draxvane.com">company@draxvane.com</a>
           </div>
           <div>
             <span>Typical response</span>
@@ -154,19 +162,6 @@ export default function ContactPage() {
               </select>
             </label>
           </div>
-
-          <label className="contact-budget-label">
-            <span>Approximate budget</span>
-            <select name="budget" defaultValue="">
-              <option value="">Choose a range</option>
-              <option>Under $1,000</option>
-              <option>$1,000–$5,000</option>
-              <option>$5,000–$15,000</option>
-              <option>$15,000–$50,000</option>
-              <option>$50,000+</option>
-              <option>Not sure yet</option>
-            </select>
-          </label>
 
           <label>
             <span>Project details *</span>

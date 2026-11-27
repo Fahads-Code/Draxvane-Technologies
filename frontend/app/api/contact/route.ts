@@ -10,7 +10,6 @@ export async function POST(request: Request) {
     const email = String(body.email || "").trim();
     const company = String(body.company || "").trim();
     const service = String(body.service || "").trim();
-    const budget = String(body.budget || "").trim();
     const message = String(body.message || "").trim();
     const website = String(body.website || "").trim();
 
@@ -61,7 +60,6 @@ export async function POST(request: Request) {
         `Email: ${email}`,
         `Company: ${company || "Not provided"}`,
         `Service: ${service}`,
-        `Budget: ${budget || "Not provided"}`,
         "",
         "Project details:",
         message,
@@ -73,7 +71,6 @@ export async function POST(request: Request) {
           <p><strong>Email:</strong> ${escapeHtml(email)}</p>
           <p><strong>Company:</strong> ${escapeHtml(company || "Not provided")}</p>
           <p><strong>Service:</strong> ${escapeHtml(service)}</p>
-          <p><strong>Budget:</strong> ${escapeHtml(budget || "Not provided")}</p>
           <hr style="border:0;border-top:1px solid #ddd;margin:24px 0">
           <p><strong>Project details:</strong></p>
           <p style="white-space:pre-wrap">${escapeHtml(message)}</p>

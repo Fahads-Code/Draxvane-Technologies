@@ -5,6 +5,8 @@ import HeroMotion from "../components/HeroMotion";
 import HeroPhrase from "../components/HeroPhrase";
 import SectionScroll from "../components/SectionScroll";
 import ServicesGrid from "../components/ServicesGrid";
+import SelectedWork from "../components/SelectedWork";
+import StudioGallery from "../components/StudioGallery";
 import SiteFooter from "../components/SiteFooter";
 
 const steps = [
@@ -69,14 +71,6 @@ export default function Home({ initialSection }: { initialSection?: string }) {
 
       <section className="hero section-shell" id="home">
         <HeroMotion />
-        <div className="hero-atmosphere" aria-hidden="true">
-          <span className="hero-grid" />
-          <span className="hero-orbit hero-orbit-one" />
-          <span className="hero-orbit hero-orbit-two" />
-          <span className="hero-particle hero-particle-one" />
-          <span className="hero-particle hero-particle-two" />
-          <span className="hero-particle hero-particle-three" />
-        </div>
         <div className="hero-copy">
           <div className="hero-kicker"><span />Tell us what you need. Everything you need is right here.</div>
           <h1>
@@ -151,6 +145,10 @@ export default function Home({ initialSection }: { initialSection?: string }) {
           ))}
         </div>
       </section>
+
+      <StudioGallery />
+
+      <SelectedWork />
 
       <section className="contact-section section-shell" id="contact">
         <div className="contact-card">

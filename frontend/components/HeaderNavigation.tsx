@@ -59,6 +59,14 @@ export default function HeaderNavigation() {
         id="main-navigation"
       >
         <Link
+          className={isActive("/work") ? "is-active" : undefined}
+          aria-current={isActive("/work") ? "page" : undefined}
+          href="/work"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Our work
+        </Link>
+        <Link
           className={isActive("/services") ? "is-active" : undefined}
           aria-current={isActive("/services") ? "page" : undefined}
           href="/services"

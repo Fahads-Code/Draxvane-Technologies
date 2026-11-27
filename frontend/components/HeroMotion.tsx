@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 /**
- * Pauses the decorative hero animations once the hero leaves the viewport.
+ * Marks the hero when it leaves the viewport so decorative CSS animations can stop.
  * Works on the DOM node directly so the server-rendered hero never re-renders.
  */
 export default function HeroMotion() {
@@ -12,7 +12,9 @@ export default function HeroMotion() {
     if (!hero || !("IntersectionObserver" in window)) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => hero.classList.toggle("is-out-of-view", !entry.isIntersecting),
+      ([entry]) => {
+        hero.classList.toggle("is-out-of-view", !entry.isIntersecting);
+      },
       { rootMargin: "120px 0px", threshold: 0 },
     );
 

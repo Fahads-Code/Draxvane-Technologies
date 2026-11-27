@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const services = [
   {
     number: "01",
+    image: "/images/services/custom-software.webp",
     title: "Custom software",
     description:
       "Purpose-built platforms and tools that fit the way your business works, from first concept to launch.",
@@ -19,6 +21,7 @@ const services = [
   },
   {
     number: "02",
+    image: "/images/services/websites-ecommerce.webp",
     title: "Websites & e-commerce",
     description:
       "High-performing websites and online stores that make your brand clear and buying easy.",
@@ -33,6 +36,7 @@ const services = [
   },
   {
     number: "03",
+    image: "/images/services/wordpress-shopify.webp",
     title: "WordPress & Shopify",
     description:
       "Custom WordPress websites and Shopify stores, set up to showcase your brand and make online selling simple.",
@@ -47,6 +51,7 @@ const services = [
   },
   {
     number: "04",
+    image: "/images/services/mobile-apps.webp",
     title: "Mobile apps",
     description:
       "Useful, intuitive apps for iOS and Android, from early prototype through ongoing improvements.",
@@ -61,6 +66,7 @@ const services = [
   },
   {
     number: "05",
+    image: "/images/services/game-development.webp",
     title: "Game development",
     description:
       "Playable experiences brought to life through game design, development, art, and production support.",
@@ -75,6 +81,7 @@ const services = [
   },
   {
     number: "06",
+    image: "/images/services/graphic-design.webp",
     title: "Graphic design & branding",
     description:
       "Distinctive visual identities and polished creative assets for your brand, product, and campaigns.",
@@ -89,6 +96,7 @@ const services = [
   },
   {
     number: "07",
+    image: "/images/services/ai-automation.webp",
     title: "AI & automation",
     description:
       "Connect your tools and simplify repeatable work with practical AI and workflow automation.",
@@ -104,6 +112,7 @@ const services = [
   },
   {
     number: "08",
+    image: "/images/services/ai-media.webp",
     title: "AI pictures & videos",
     description:
       "AI-made images and short videos for products, posts, and campaigns. We shape each one to fit your brand, then edit it until it looks right.",
@@ -119,6 +128,7 @@ const services = [
   },
   {
     number: "09",
+    image: "/images/services/data-operations.webp",
     title: "Data entry & digital operations",
     description:
       "Accurate, organized support for the detail-heavy work that keeps your digital business moving.",
@@ -133,6 +143,7 @@ const services = [
   },
   {
     number: "10",
+    image: "/images/services/digital-marketing.webp",
     title: "Content & digital marketing",
     description:
       "Consistent digital content and campaign support that helps your business reach the right people.",
@@ -237,6 +248,15 @@ export default function ServicesGrid() {
                     aria-controls={`service-detail-${service.number}`}
                     onClick={() => toggleService(service.number)}
                   >
+                    <span className="service-card-media">
+                      <Image
+                        src={service.image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 650px) 100vw, (max-width: 900px) 50vw, 33vw"
+                        loading="lazy"
+                      />
+                    </span>
                     <span className="service-card-top">
                       <span>{service.number}</span>
                       <span className="service-arrow" aria-hidden="true">
