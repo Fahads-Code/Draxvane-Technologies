@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const visuals = [
   {
-    src: "/images/team-collaboration.jpg",
+    src: "/images/team-collaboration.webp",
     alt: "Draxvane team collaborating around a table",
     label: "One team",
     title: "Every skill in one place",
@@ -11,7 +11,7 @@ const visuals = [
       "Designers, developers, and operations support work together, so you deal with one team instead of juggling different vendors.",
   },
   {
-    src: "/images/analytics.jpg",
+    src: "/images/analytics.webp",
     alt: "Analytics and planning on a laptop screen",
     label: "Clear process",
     title: "A plan you can follow",
@@ -19,7 +19,7 @@ const visuals = [
       "We agree on the scope and next steps first, then keep you posted as the work moves forward.",
   },
   {
-    src: "/images/development.jpg",
+    src: "/images/development.webp",
     alt: "Developers working together at their desks",
     label: "Real care",
     title: "Checked before it reaches you",

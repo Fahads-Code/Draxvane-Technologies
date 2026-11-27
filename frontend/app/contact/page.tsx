@@ -99,7 +99,7 @@ export default function ContactPage() {
         <aside className="contact-details" aria-label="Contact details">
           <figure className="contact-aside-image">
             <Image
-              src="/images/design-review.jpg"
+              src="/images/design-review.webp"
               alt="Draxvane team reviewing a project together"
               fill
               sizes="260px"

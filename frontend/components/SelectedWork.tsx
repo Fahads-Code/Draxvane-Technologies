@@ -40,16 +40,13 @@ export default function SelectedWork() {
                 sizes="(max-width: 650px) 100vw, (max-width: 900px) 50vw, 33vw"
                 loading="lazy"
               />
+              <span className="work-card-index">{String(index + 1).padStart(2, "0")}</span>
             </div>
             <div className="work-card-top">
-              <span className="work-index">{String(index + 1).padStart(2, "0")}</span>
               <span className="work-category">{project.category}</span>
             </div>
             <h3>{project.title}</h3>
             <p>{project.summary}</p>
-            <div className="work-tags">
-              {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
-            </div>
             <Link className="text-link work-link" href={`/work#${project.slug}`}>
               View case study <ArrowIcon diagonal />
             </Link>

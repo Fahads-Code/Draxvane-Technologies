@@ -9,7 +9,7 @@ import { createMetadata } from "../seo";
 import { pageSchema } from "../structured-data";
 
 const workDescription =
-  "Selected projects by Draxvane Technologies, from a UK safety consultancy platform and hotel management software to AI-powered shop billing.";
+  "Selected projects by Draxvane Technologies, from a UK safety consultancy platform and hotel management software to ride booking, AI tools and everyday apps.";
 
 export const metadata: Metadata = createMetadata({
   title: "Our Work | Draxvane Technologies",
@@ -59,7 +59,16 @@ export default function WorkPage() {
           <HeaderNavigation />
         </header>
 
-        <section className="work-page-hero section-shell">
+        <section className="work-page-hero">
+          <div className="work-page-hero-bg" aria-hidden="true">
+            <Image
+              src="/images/work-hero.webp"
+              alt=""
+              fill
+              sizes="100vw"
+              priority
+            />
+          </div>
           <div className="work-page-hero-copy">
             <div className="eyebrow"><span className="eyebrow-line" /> Selected work</div>
             <h1>Built for the work<br /><span>that matters.</span></h1>
@@ -71,22 +80,11 @@ export default function WorkPage() {
             <div className="work-page-scope" aria-label="Our work">
               <span>Web platforms</span>
               <i aria-hidden="true" />
-              <span>Hotel software</span>
+              <span>Softwares</span>
               <i aria-hidden="true" />
               <span>AI tools</span>
-            </div>
-          </div>
-          <div className="work-page-hero-visual">
-            <Image
-              src="/images/workspace.jpg"
-              alt="Draxvane team workspace"
-              fill
-              sizes="(max-width: 900px) 100vw, 45vw"
-              priority
-            />
-            <div className="work-page-hero-chip">
-              <span>One team</span>
-              <strong>Every discipline</strong>
+              <i aria-hidden="true" />
+              <span>Mobile Applications</span>
             </div>
           </div>
         </section>
@@ -99,14 +97,18 @@ export default function WorkPage() {
                 <span className="case-category">{project.category}</span>
               </div>
 
-              <div className="case-image">
-                <Image
-                  src={project.image}
-                  alt={project.imageAlt}
-                  fill
-                  sizes="(max-width: 700px) 100vw, 90vw"
-                  loading="lazy"
-                />
+              <div className="case-cover" aria-hidden="true">
+                <div className="case-cover-photo">
+                  <Image
+                    src={project.image}
+                    alt={project.imageAlt}
+                    fill
+                    sizes="(max-width: 700px) 90px, 116px"
+                    loading="lazy"
+                  />
+                </div>
+                <span className="case-cover-number">{String(index + 1).padStart(2, "0")}</span>
+                <span className="case-cover-label">{project.category}</span>
               </div>
 
               <div className="case-main">

@@ -7,49 +7,16 @@ import SiteFooter from "../../components/SiteFooter";
 import { createMetadata } from "../seo";
 import { pageSchema } from "../structured-data";
 
-const teamMembers = [
-  {
-    name: "Fahad Mehmood",
-    role: "Software & AI automation",
-    description:
-      "Fahad builds software and looks after the AI and automation side. He finds the work that repeats, connects the right tools, and sets up workflows the team can actually use day to day.",
-  },
-  {
-    name: "Zara Saleem",
-    role: "AI pictures & videos · Content",
-    description:
-      "Zara handles the AI picture and video work and writes the content that goes with it. She takes an idea from the first draft to something ready to publish.",
-  },
-  {
-    name: "Muneeb Mushtaq",
-    role: "Mobile App Developer",
-    description:
-      "Muneeb builds mobile apps for iOS and Android. He takes an idea from the first screen to a working release and stays on top of the details.",
-  },
-  {
-    name: "Syed Abdul Babar",
-    role: "Website Developer",
-    description:
-      "Babar builds and maintains websites. He makes sure they stay fast, reliable, and easy for the client to update.",
-  },
-  {
-    name: "Esha Wajahat",
-    role: "WordPress & Shopify",
-    description:
-      "Esha handles our WordPress and Shopify work. She builds themes, sets up stores, and sorts out the small things that make a site easy to use and easy to update.",
-  },
-];
-
 const cofounders = [
   {
     name: "Muneeb Mushtaq",
-    image: "/Muneeb Final.png",
+    image: "/Muneeb Final.webp",
     description:
       "Helping shape our vision for thoughtful digital work built around what businesses need.",
   },
   {
     name: "Syed Abdul Babar",
-    image: "/Professional Office Headshot.png",
+    image: "/Professional Office Headshot.webp",
     description:
       "Working with the team to bring practical, polished digital ideas to life.",
   },
@@ -155,7 +122,7 @@ export default function AboutPage() {
         <div className="about-person-card about-founder-card about-founder-feature-card">
           <div className="about-founder-photo">
             <Image
-              src="/Founder.png"
+              src="/Founder.webp"
               alt="Fahad Mehmood, Founder of Draxvane Technologies"
               fill
               sizes="(max-width: 700px) 260px, 320px"
@@ -229,20 +196,33 @@ export default function AboutPage() {
           </div>
           <p>
             A small team, clear ownership, and no hand-offs to people who don&apos;t
-            know your project.
+            know your project. Esha leads our WordPress and Shopify work.
           </p>
         </div>
 
-        <div className="about-team-grid">
-          {teamMembers.map((member) => (
-            <article className="about-person-card about-team-card" key={member.name}>
-              <div className="about-person-copy">
-                <span className="about-person-role">{member.role}</span>
-                <h3>{member.name}</h3>
-                <p>{member.description}</p>
-              </div>
-            </article>
-          ))}
+        <div className="about-team-grid about-team-lead-grid">
+          <article className="about-person-card about-team-card about-team-lead-card">
+            <div className="about-team-lead-visual" aria-hidden="true">
+              <div className="about-team-lead-orbit" />
+              <div className="about-team-lead-monogram">EW</div>
+              <span className="about-lead-chip about-lead-chip-wordpress">
+                <span>W</span> WordPress
+              </span>
+              <span className="about-lead-chip about-lead-chip-shopify">
+                <span>S</span> Shopify
+              </span>
+            </div>
+            <div className="about-person-copy about-team-lead-copy">
+              <span className="about-person-role">Team Lead</span>
+              <h3>Esha Wajahat</h3>
+              <span className="about-team-lead-title">WordPress &amp; Shopify Developer</span>
+              <p>
+                Esha handles our WordPress and Shopify work. She builds themes,
+                sets up stores, and sorts out the small things that make a site
+                easy to use and easy to update.
+              </p>
+            </div>
+          </article>
         </div>
       </section>
 
