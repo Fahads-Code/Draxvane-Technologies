@@ -68,10 +68,9 @@ export default function AboutPage() {
               width={2090}
               height={375}
               sizes="(max-width: 700px) 172px, 210px"
-              decoding="async"
+              decoding="sync"
+              loading="eager"
               fetchPriority="high"
-              preload
-              unoptimized
             />
           </span>
         </Link>
@@ -126,7 +125,8 @@ export default function AboutPage() {
               alt="Fahad Mehmood, Founder of Draxvane Technologies"
               fill
               sizes="(max-width: 700px) 260px, 320px"
-              priority
+              preload
+              decoding="sync"
             />
           </div>
           <div className="about-person-copy">

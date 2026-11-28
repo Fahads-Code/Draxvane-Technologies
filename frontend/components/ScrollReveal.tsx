@@ -116,12 +116,8 @@ export default function ScrollReveal() {
           if (!entry.isIntersecting) return;
 
           const element = entry.target as HTMLElement;
-          const siblings = Array.from(element.parentElement?.children ?? []);
-          const index = Math.max(0, siblings.indexOf(element));
-          element.style.setProperty(
-            "--reveal-delay",
-            `${Math.min(index, 6) * 80}ms`,
-          );
+          // No per-item stagger: images should be visible as soon as they load.
+          element.style.setProperty("--reveal-delay", "0ms");
 
           // Promote to its own layer only while this element is animating.
           element.style.willChange = "opacity, transform";

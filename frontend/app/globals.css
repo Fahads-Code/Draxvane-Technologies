@@ -83,10 +83,12 @@ button, input, select, textarea { font: inherit; }
 }
 
 /* Progressive reveal — content stays visible without JavaScript */
+/* Short transition + no stagger: content (and its images) appears almost
+   immediately, while still keeping a subtle entrance. */
 .reveal-pending {
   opacity: 0;
-  transform: translate3d(0, 28px, 0) scale(0.988);
-  transition: opacity 780ms var(--ease), transform 900ms var(--ease);
+  transform: translate3d(0, 12px, 0);
+  transition: opacity 160ms linear, transform 200ms var(--ease);
   transition-delay: var(--reveal-delay, 0ms);
 }
 

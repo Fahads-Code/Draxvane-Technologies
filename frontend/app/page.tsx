@@ -59,10 +59,9 @@ export default function Home({ initialSection }: { initialSection?: string }) {
               width={2090}
               height={375}
               sizes="(max-width: 700px) 172px, 210px"
-              decoding="async"
+              decoding="sync"
+              loading="eager"
               fetchPriority="high"
-              preload
-              unoptimized
             />
           </span>
         </Link>

@@ -47,7 +47,6 @@ export default function SiteFooter() {
                 height={375}
                 sizes="170px"
                 decoding="async"
-                unoptimized
               />
             </span>
           </Link>

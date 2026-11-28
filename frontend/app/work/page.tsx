@@ -49,10 +49,9 @@ export default function WorkPage() {
                 width={2090}
                 height={375}
                 sizes="(max-width: 700px) 172px, 210px"
-                decoding="async"
+                decoding="sync"
+                loading="eager"
                 fetchPriority="high"
-                preload
-                unoptimized
               />
             </span>
           </Link>
@@ -66,7 +65,8 @@ export default function WorkPage() {
               alt=""
               fill
               sizes="100vw"
-              priority
+              preload
+              decoding="sync"
             />
           </div>
           <div className="work-page-hero-copy">

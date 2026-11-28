@@ -74,10 +74,9 @@ export default function ContactPage() {
               width={2090}
               height={375}
               sizes="(max-width: 700px) 172px, 210px"
-              decoding="async"
+              decoding="sync"
+              loading="eager"
               fetchPriority="high"
-              preload
-              unoptimized
             />
           </span>
         </Link>
@@ -103,7 +102,9 @@ export default function ContactPage() {
               alt="Draxvane team reviewing a project together"
               fill
               sizes="260px"
-              decoding="async"
+              decoding="sync"
+              loading="eager"
+              fetchPriority="high"
             />
           </figure>
           <div>
